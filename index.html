@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Sitica - La tua opinione</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --container-bg: rgba(255, 255, 255, 0.95);
+            --shadow-color: rgba(44, 62, 80, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { width: 20px; height: 20px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 15px; height: 15px; left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 25px; height: 25px; left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 18px; height: 18px; left: 40%; animation-delay: 1s; }
+        .particle:nth-child(5) { width: 22px; height: 22px; left: 50%; animation-delay: 3s; }
+        .particle:nth-child(6) { width: 16px; height: 16px; left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { width: 24px; height: 24px; left: 70%; animation-delay: 1.5s; }
+        .particle:nth-child(8) { width: 20px; height: 20px; left: 80%; animation-delay: 3.5s; }
+        .particle:nth-child(9) { width: 18px; height: 18px; left: 90%; animation-delay: 2.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px) scale(0.95);
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Welcome Screen */
+        #welcome-screen {
+            text-align: center;
+        }
+
+        .welcome-content {
+            background: var(--container-bg);
+            backdrop-filter: blur(20px);
+            padding: 60px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px var(--shadow-color);
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-color), #9b59b6);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3);
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .start-button {
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-color), #9b59b6);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        /* Form Container */
+        .container {
+            width: 95%;
+            height: 90vh;
+            max-width: 900px;
+            background: var(--container-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 80px var(--shadow-color);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--accent-color), #9b59b6);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .iframe-wrapper {
+            height: calc(100% - 80px);
+            position: relative;
+            background: white;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Thank You Screen */
+        #thankyou-screen {
+            text-align: center;
+        }
+
+        .thankyou-content {
+            background: var(--container-bg);
+            backdrop-filter: blur(20px);
+            padding: 60px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px var(--shadow-color);
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            animation: successPulse 2s ease-in-out;
+        }
+
+        @keyframes successPulse {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .thankyou-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .thankyou-message {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-content,
+            .thankyou-content {
+                margin: 20px;
+                padding: 40px 30px;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .container {
+                width: 98%;
+                height: 95vh;
+                margin: 10px;
+            }
+
+            .form-header {
+                padding: 15px 20px;
+            }
+
+            .form-header h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+
+            .start-button {
+                padding: 14px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-content">
+            <div class="logo">S</div>
+            <h1 class="welcome-title">Quanto sei soddisfatto<br>in 10 click</h1>
+            <p class="welcome-subtitle">La tua opinione è importante per noi</p>
+            <button id="start-button" class="start-button">Inizia Sondaggio</button>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <div id="form-container" class="screen">
+        <div class="container">
+            <div class="form-header">
+                <h2>Sitica - Questionario di Soddisfazione</h2>
+            </div>
+            <div class="iframe-wrapper">
+                <div class="loading-spinner" id="loading-spinner"></div>
+                <iframe id="google-form" 
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSfjMGWnKxS4RAj4eulVahcUNf5J9oDIwKREGqcCYuN8VmSQZg/viewform?embedded=true&usp=pp_url" 
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0">
+                    Caricamento del modulo in corso...
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thank You Screen -->
+    <div id="thankyou-screen" class="screen">
+        <div class="thankyou-content">
+            <div class="success-icon">✓</div>
+            <h1 class="thankyou-title">Grazie per il tuo feedback!</h1>
+            <p class="thankyou-message">La tua opinione ci aiuta a migliorare continuamente i nostri servizi</p>
+        </div>
+    </div>
+
+    <script>
+        // Elementi DOM
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const formContainer = document.getElementById('form-container');
+        const thankyouScreen = document.getElementById('thankyou-screen');
+        const startButton = document.getElementById('start-button');
+        const iframe = document.getElementById('google-form');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        let loadCount = 0;
+
+        // Gestione click del pulsante start
+        startButton.addEventListener('click', () => {
+            welcomeScreen.classList.remove('active');
+            setTimeout(() => {
+                formContainer.classList.add('active');
+            }, 100);
+        });
+
+        // Gestione caricamento iframe
+        iframe.addEventListener('load', () => {
+            loadingSpinner.style.display = 'none';
+            loadCount++;
+            
+            if (loadCount > 1) {
+                // Il form è stato inviato
+                setTimeout(() => {
+                    formContainer.classList.remove('active');
+                    setTimeout(() => {
+                        thankyouScreen.classList.add('active');
+                    }, 300);
+                }, 500);
+                
+                // Ritorna alla schermata iniziale dopo 5 secondi
+                setTimeout(() => {
+                    thankyouScreen.classList.remove('active');
+                    setTimeout(() => {
+                        welcomeScreen.classList.add('active');
+                        loadCount = 0;
+                        loadingSpinner.style.display = 'block';
+                        // Ricarica il form
+                        iframe.src = iframe.src;
+                    }, 300);
+                }, 5000);
+            }
+        });
+
+        // Gestione errori iframe
+        iframe.addEventListener('error', () => {
+            loadingSpinner.style.display = 'none';
+            console.error('Errore nel caricamento del form');
+        });
+
+        // Animazione particelle aggiuntiva al click
+        startButton.addEventListener('click', () => {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach(particle => {
+                particle.style.animationDuration = '3s';
+            });
+            
+            setTimeout(() => {
+                particles.forEach(particle => {
+                    particle.style.animationDuration = '8s';
+                });
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
