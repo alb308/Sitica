@@ -2,438 +2,498 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Sitica - La tua opinione</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Sitica Barrafranca - Food & Drink Hub d'eccellenza. Scopri la vera ospitalità siciliana con i nostri piatti tradizionali e cocktail d'autore.">
+    <meta name="keywords" content="Sitica, Barrafranca, ristorante, cocktail bar, food drink hub, cucina siciliana">
+    <title>Sitica Barrafranca - Food & Drink Hub d'Eccellenza</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --background-color: #ecf0f1;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
-            --container-bg: rgba(255, 255, 255, 0.95);
-            --shadow-color: rgba(44, 62, 80, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-        }
-
-        /* Animated background particles */
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 8s infinite ease-in-out;
-        }
-
-        .particle:nth-child(1) { width: 20px; height: 20px; left: 10%; animation-delay: 0s; }
-        .particle:nth-child(2) { width: 15px; height: 15px; left: 20%; animation-delay: 2s; }
-        .particle:nth-child(3) { width: 25px; height: 25px; left: 30%; animation-delay: 4s; }
-        .particle:nth-child(4) { width: 18px; height: 18px; left: 40%; animation-delay: 1s; }
-        .particle:nth-child(5) { width: 22px; height: 22px; left: 50%; animation-delay: 3s; }
-        .particle:nth-child(6) { width: 16px; height: 16px; left: 60%; animation-delay: 5s; }
-        .particle:nth-child(7) { width: 24px; height: 24px; left: 70%; animation-delay: 1.5s; }
-        .particle:nth-child(8) { width: 20px; height: 20px; left: 80%; animation-delay: 3.5s; }
-        .particle:nth-child(9) { width: 18px; height: 18px; left: 90%; animation-delay: 2.5s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-
-        .screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100vh;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateY(30px) scale(0.95);
-        }
-
-        .screen.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-
-        /* Welcome Screen */
-        #welcome-screen {
-            text-align: center;
-        }
-
-        .welcome-content {
-            background: var(--container-bg);
-            backdrop-filter: blur(20px);
-            padding: 60px 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px var(--shadow-color);
-            max-width: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--accent-color), #9b59b6);
-            border-radius: 50%;
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3);
-        }
-
-        .welcome-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
-
-        .welcome-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        .start-button {
-            padding: 16px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            color: white;
-            background: linear-gradient(135deg, var(--accent-color), #9b59b6);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .start-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
-        }
-
-        .start-button:active {
-            transform: translateY(0);
-        }
-
-        /* Form Container */
-        .container {
-            width: 95%;
-            height: 90vh;
-            max-width: 900px;
-            background: var(--container-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            box-shadow: 0 25px 80px var(--shadow-color);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-
-        .form-header {
-            background: linear-gradient(135deg, var(--accent-color), #9b59b6);
-            color: white;
-            padding: 20px 30px;
-            text-align: center;
-        }
-
-        .form-header h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .iframe-wrapper {
-            height: calc(100% - 80px);
-            position: relative;
-            background: white;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-
-        /* Loading Spinner */
-        .loading-spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(52, 152, 219, 0.1);
-            border-left: 4px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 10;
-        }
-
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Thank You Screen */
-        #thankyou-screen {
-            text-align: center;
-        }
-
-        .thankyou-content {
-            background: var(--container-bg);
-            backdrop-filter: blur(20px);
-            padding: 60px 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px var(--shadow-color);
-            max-width: 600px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .success-icon {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            border-radius: 50%;
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            color: white;
-            animation: successPulse 2s ease-in-out;
-        }
-
-        @keyframes successPulse {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .thankyou-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 15px;
-        }
-
-        .thankyou-message {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            font-weight: 300;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .welcome-content,
-            .thankyou-content {
-                margin: 20px;
-                padding: 40px 30px;
-            }
-
-            .welcome-title {
-                font-size: 2rem;
-            }
-
-            .container {
-                width: 98%;
-                height: 95vh;
-                margin: 10px;
-            }
-
-            .form-header {
-                padding: 15px 20px;
-            }
-
-            .form-header h2 {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .welcome-title {
-                font-size: 1.8rem;
-            }
-
-            .welcome-subtitle {
-                font-size: 1rem;
-            }
-
-            .start-button {
-                padding: 14px 30px;
-                font-size: 1rem;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="background-animation">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
-    <!-- Welcome Screen -->
-    <div id="welcome-screen" class="screen active">
-        <div class="welcome-content">
-            <div class="logo">S</div>
-            <h1 class="welcome-title">Quanto sei soddisfatto<br>in 10 click</h1>
-            <p class="welcome-subtitle">La tua opinione è importante per noi</p>
-            <button id="start-button" class="start-button">Inizia Sondaggio</button>
-        </div>
-    </div>
-
-    <!-- Form Container -->
-    <div id="form-container" class="screen">
-        <div class="container">
-            <div class="form-header">
-                <h2>Sitica - Questionario di Soddisfazione</h2>
+    <!-- Rating Modal (appears on page load) -->
+    <div id="ratingModal" class="rating-modal">
+        <div class="rating-modal-content">
+            <span class="rating-close">&times;</span>
+            <div class="rating-header">
+                <div class="rating-logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>SITICA</span>
+                </div>
+                <h3>La tua opinione conta!</h3>
+                <p>Aiutaci a migliorare condividendo la tua esperienza</p>
             </div>
-            <div class="iframe-wrapper">
-                <div class="loading-spinner" id="loading-spinner"></div>
-                <iframe id="google-form" 
-                        src="https://docs.google.com/forms/d/e/1FAIpQLSfjMGWnKxS4RAj4eulVahcUNf5J9oDIwKREGqcCYuN8VmSQZg/viewform?embedded=true&usp=pp_url" 
-                        frameborder="0" 
-                        marginheight="0" 
-                        marginwidth="0">
-                    Caricamento del modulo in corso...
-                </iframe>
+            <div class="rating-buttons-simple">
+                <button type="button" class="btn-secondary" id="skipRating">Non ora</button>
+                <a href="#" class="btn-primary" id="goToReviews">Lascia una Recensione</a>
             </div>
         </div>
     </div>
 
-    <!-- Thank You Screen -->
-    <div id="thankyou-screen" class="screen">
-        <div class="thankyou-content">
-            <div class="success-icon">✓</div>
-            <h1 class="thankyou-title">Grazie per il tuo feedback!</h1>
-            <p class="thankyou-message">La tua opinione ci aiuta a migliorare continuamente i nostri servizi</p>
-        </div>
-    </div>
-
-    <script>
-        // Elementi DOM
-        const welcomeScreen = document.getElementById('welcome-screen');
-        const formContainer = document.getElementById('form-container');
-        const thankyouScreen = document.getElementById('thankyou-screen');
-        const startButton = document.getElementById('start-button');
-        const iframe = document.getElementById('google-form');
-        const loadingSpinner = document.getElementById('loading-spinner');
-
-        let loadCount = 0;
-
-        // Gestione click del pulsante start
-        startButton.addEventListener('click', () => {
-            welcomeScreen.classList.remove('active');
-            setTimeout(() => {
-                formContainer.classList.add('active');
-            }, 100);
-        });
-
-        // Gestione caricamento iframe
-        iframe.addEventListener('load', () => {
-            loadingSpinner.style.display = 'none';
-            loadCount++;
-            
-            if (loadCount > 1) {
-                // Il form è stato inviato
-                setTimeout(() => {
-                    formContainer.classList.remove('active');
-                    setTimeout(() => {
-                        thankyouScreen.classList.add('active');
-                    }, 300);
-                }, 500);
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="container">
+                <a href="#home" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main">SITICA</span>
+                        <span class="logo-sub">Barrafranca</span>
+                    </div>
+                </a>
                 
-                // Ritorna alla schermata iniziale dopo 5 secondi
-                setTimeout(() => {
-                    thankyouScreen.classList.remove('active');
-                    setTimeout(() => {
-                        welcomeScreen.classList.add('active');
-                        loadCount = 0;
-                        loadingSpinner.style.display = 'block';
-                        // Ricarica il form
-                        iframe.src = iframe.src;
-                    }, 300);
-                }, 5000);
-            }
-        });
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">Chi Siamo</a></li>
+                    <li><a href="#services" class="nav-link">Servizi</a></li>
+                    <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                    <li><a href="#location" class="nav-link">Dove Siamo</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="tel:+393471234567" class="btn-call">
+                        <i class="fas fa-phone"></i>
+                        Prenota
+                    </a>
+                    <div class="mobile-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-        // Gestione errori iframe
-        iframe.addEventListener('error', () => {
-            loadingSpinner.style.display = 'none';
-            console.error('Errore nel caricamento del form');
-        });
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-award"></i>
+                    <span>Eccellenza Siciliana dal 2020</span>
+                </div>
+                <h1 class="hero-title">
+                    Benvenuti da 
+                    <span class="title-highlight">SITICA</span>
+                </h1>
+                <p class="hero-subtitle">Food & Drink Hub d'Eccellenza</p>
+                <p class="hero-description">
+                    Nel cuore di Barrafranca, dove la tradizione siciliana incontra l'innovazione culinaria. 
+                    Ogni piatto racconta una storia, ogni cocktail è un'esperienza sensoriale unica.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#services" class="btn-hero primary">
+                        <span>Scopri di Più</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="tel:+393471234567" class="btn-hero secondary">
+                        <i class="fas fa-phone"></i>
+                        <span>Prenota Ora</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">4.8</span>
+                        <span class="stat-label">Rating Google</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Recensioni</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Anni di Esperienza</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
 
-        // Animazione particelle aggiuntiva al click
-        startButton.addEventListener('click', () => {
-            const particles = document.querySelectorAll('.particle');
-            particles.forEach(particle => {
-                particle.style.animationDuration = '3s';
-            });
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="section-header">
+                        <span class="section-subtitle">La Nostra Storia</span>
+                        <h2 class="section-title">Passione, Tradizione e Innovazione</h2>
+                    </div>
+                    <p class="about-description">
+                        Sitica nasce dal sogno di creare un punto di riferimento gastronomico a Barrafranca. 
+                        La nostra filosofia si basa su tre pilastri fondamentali: ingredienti di prima qualità, 
+                        rispetto per la tradizione siciliana e costante ricerca dell'innovazione.
+                    </p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-seedling"></i>
+                            <div>
+                                <h4>Ingredienti Locali</h4>
+                                <p>Selezioniamo solo i migliori prodotti del territorio siciliano</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-heart"></i>
+                            <div>
+                                <h4>Cucina del Cuore</h4>
+                                <p>Ogni piatto è preparato con amore e dedizione</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <div>
+                                <h4>Servizio d'Eccellenza</h4>
+                                <p>Il nostro staff è sempre pronto ad accogliervi con il sorriso</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-utensils"></i>
+                        <span>SITICA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header centered">
+                <span class="section-subtitle">I Nostri Servizi</span>
+                <h2 class="section-title">Un'Esperienza Completa</h2>
+                <p class="section-description">
+                    Dal mattino alla notte, Sitica è il tuo compagno ideale per ogni momento della giornata
+                </p>
+            </div>
             
-            setTimeout(() => {
-                particles.forEach(particle => {
-                    particle.style.animationDuration = '8s';
-                });
-            }, 3000);
-        });
-    </script>
+            <div class="services-grid">
+                <div class="service-card featured">
+                    <div class="service-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Ristorante</h3>
+                    <p>Cucina siciliana autentica con un tocco moderno. Piatti della tradizione preparati con ingredienti freschi e di stagione.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Menu stagionale</li>
+                        <li><i class="fas fa-check"></i> Specialità siciliane</li>
+                        <li><i class="fas fa-check"></i> Prodotti km 0</li>
+                    </ul>
+                    <div class="service-action">
+                        <span class="service-price">Menu da €25</span>
+                        <button class="btn-service">Prenota Tavolo</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cocktail"></i>
+                    </div>
+                    <h3>Cocktail Bar</h3>
+                    <p>I nostri mixologist creano cocktail unici con ingredienti premium e distillati di alta qualità.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Cocktail signature</li>
+                        <li><i class="fas fa-check"></i> Distillati premium</li>
+                        <li><i class="fas fa-check"></i> Aperitivi gourmet</li>
+                    </ul>
+                    <div class="service-action">
+                        <span class="service-price">Happy Hour 18-20</span>
+                        <button class="btn-service">Vedi Carta</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <h3>Caffetteria</h3>
+                    <p>Inizia la giornata con il nostro caffè artigianale accompagnato da dolci freschi e cornetti appena sfornati.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Caffè di qualità</li>
+                        <li><i class="fas fa-check"></i> Dolci artigianali</li>
+                        <li><i class="fas fa-check"></i> Colazioni complete</li>
+                    </ul>
+                    <div class="service-action">
+                        <span class="service-price">Aperto dalle 7:00</span>
+                        <button class="btn-service">Scopri Menu</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-birthday-cake"></i>
+                    </div>
+                    <h3>Eventi Privati</h3>
+                    <p>Organizziamo il tuo evento speciale con menu personalizzati e servizio dedicato.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Menu personalizzati</li>
+                        <li><i class="fas fa-check"></i> Servizio dedicato</li>
+                        <li><i class="fas fa-check"></i> Allestimenti su misura</li>
+                    </ul>
+                    <div class="service-action">
+                        <span class="service-price">Su prenotazione</span>
+                        <button class="btn-service">Richiedi Info</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Recensioni</h3>
+                    <p>La tua opinione è molto importante per noi. Condividi la tua esperienza e aiutaci a crescere sempre di più.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Valutazione semplice</li>
+                        <li><i class="fas fa-check"></i> Feedback costruttivo</li>
+                        <li><i class="fas fa-check"></i> Esperienza condivisa</li>
+                    </ul>
+                    <div class="service-action">
+                        <span class="service-price">La tua opinione conta</span>
+                        <button class="btn-service" data-action="reviews">Valutaci</button>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Live Music</h3>
+                    <p>Serate speciali con musica dal vivo e DJ set per rendere unica la tua esperienza da Sitica.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Musica dal vivo</li>
+                        <li><i class="fas fa-check"></i> DJ set weekend</li>
+                        <li><i class="fas fa-check"></i> Eventi tematici</li>
+                    </ul>
+                    <div class="service-action">
+                        <span class="service-price">Ogni weekend</span>
+                        <button class="btn-service">Prossimi Eventi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-header centered">
+                <span class="section-subtitle">Gallery</span>
+                <h2 class="section-title">I Nostri Momenti</h2>
+                <p class="section-description">Scopri l'atmosfera unica di Sitica attraverso le nostre immagini</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item large">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-image"></i>
+                        <span>Ambiente Principale</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-utensils"></i>
+                        <span>I Nostri Piatti</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-cocktail"></i>
+                        <span>Cocktail Bar</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-users"></i>
+                        <span>Momenti Speciali</span>
+                    </div>
+                </div>
+                <div class="gallery-item tall">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-wine-glass"></i>
+                        <span>Selezione Vini</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span>Eventi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="location">
+        <div class="container">
+            <div class="location-content">
+                <div class="location-info">
+                    <div class="section-header">
+                        <span class="section-subtitle">Dove Siamo</span>
+                        <h2 class="section-title">Vieni a Trovarci</h2>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Indirizzo</h4>
+                                <p>Via Garibaldi 45<br>94012 Barrafranca (EN)</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Telefono</h4>
+                                <p>+39 347 123 4567</p>
+                                <a href="tel:+393471234567" class="contact-link">Chiama Ora</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Orari di Apertura</h4>
+                                <div class="opening-hours">
+                                    <div class="hours-row">
+                                        <span>Lunedì - Giovedì</span>
+                                        <span>7:00 - 24:00</span>
+                                    </div>
+                                    <div class="hours-row">
+                                        <span>Venerdì - Domenica</span>
+                                        <span>7:00 - 02:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <h4>Seguici sui Social</h4>
+                        <div class="social-icons">
+                            <a href="https://www.instagram.com/sitica_barrafranca/" target="_blank" rel="noopener">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/p/Sitica-food-drink-hub-100093143477183/" target="_blank" rel="noopener">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" target="_blank" rel="noopener">
+                                <i class="fab fa-tripadvisor"></i>
+                            </a>
+                            <a href="#" target="_blank" rel="noopener">
+                                <i class="fab fa-google"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-map">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map"></i>
+                        <span>Mappa di Barrafranca</span>
+                        <p>Via Garibaldi 45, 94012 Barrafranca (EN)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-main">SITICA</span>
+                            <span class="logo-sub">Barrafranca</span>
+                        </div>
+                    </div>
+                    <p>Il Food & Drink Hub che unisce tradizione siciliana e innovazione culinaria nel cuore di Barrafranca.</p>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/sitica_barrafranca/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/p/Sitica-food-drink-hub-100093143477183/" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Servizi</h4>
+                        <ul>
+                            <li><a href="#services">Ristorante</a></li>
+                            <li><a href="#services">Cocktail Bar</a></li>
+                            <li><a href="#services">Caffetteria</a></li>
+                            <li><a href="#services">Eventi Privati</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Informazioni</h4>
+                        <ul>
+                            <li><a href="#about">Chi Siamo</a></li>
+                            <li><a href="#gallery">Gallery</a></li>
+                            <li><a href="#location">Dove Siamo</a></li>
+                            <li><a href="tel:+393471234567">Prenotazioni</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Contatti</h4>
+                        <ul>
+                            <li>Via Garibaldi 45</li>
+                            <li>94012 Barrafranca (EN)</li>
+                            <li><a href="tel:+393471234567">+39 347 123 4567</a></li>
+                            <li><a href="mailto:info@sitica.it">info@sitica.it</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-divider"></div>
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 Sitica Barrafranca. Tutti i diritti riservati.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Termini e Condizioni</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
 </body>
 </html>
