@@ -188,20 +188,32 @@ function initServiceButtons() {
                 handleReviews();
             } else {
                 switch(buttonText) {
-                    case 'Prenota Tavolo':
-                        handleReservation();
+                    case 'Scopri Dolci':
+                        handlePasticceria();
                         break;
-                    case 'Vedi Carta':
-                        handleMenu();
+                    case 'Gusti del Giorno':
+                        handleGelateria();
                         break;
-                    case 'Scopri Menu':
-                        handleMenu();
+                    case 'Menu Aperitivi':
+                        handleAperitivi();
+                        break;
+                    case 'Prenota Aperifish':
+                        handleAperifish();
+                        break;
+                    case 'Scegli Panino':
+                        handlePanini();
+                        break;
+                    case 'Menu del Giorno':
+                        handleTavolaCalda();
+                        break;
+                    case 'Carta Vini':
+                        handleWineBar();
+                        break;
+                    case 'Scopri Caffè':
+                        handleCaffetteria();
                         break;
                     case 'Richiedi Info':
                         handleEventInfo();
-                        break;
-                    case 'Prossimi Eventi':
-                        handleEvents();
                         break;
                     default:
                         showComingSoonMessage();
@@ -222,25 +234,44 @@ function handleReviews() {
     }
 }
 
-function handleReservation() {
-    // You can replace this with your actual booking system
+function handlePasticceria() {
+    showNotification('Pasticceria', 'Dolci freschi ogni giorno dalle 7:00! Cornetti, brioches e torte personalizzate per ogni occasione. Chiamaci per ordinazioni speciali!');
+}
+
+function handleGelateria() {
+    showNotification('Gelateria', 'Gelato artigianale con ingredienti naturali! Vieni a scoprire i gusti del giorno e le nostre creazioni originali.');
+}
+
+function handleAperitivi() {
+    showNotification('Aperitivi', 'I nostri aperitivi dalle 18:00 alle 21:00! Cocktail, spritz e stuzzichini gourmet ti aspettano per iniziare la serata.');
+}
+
+function handleAperifish() {
     const phoneNumber = '+393471234567';
-    const message = encodeURIComponent('Ciao! Vorrei prenotare un tavolo da Sitica. Potete aiutarmi?');
+    const message = encodeURIComponent('Ciao! Vorrei prenotare per l\'Aperifish di venerdì sera. Quanti posti avete disponibili?');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
 }
 
-function handleMenu() {
-    showNotification('Menu', 'Il nostro menu completo sarà presto disponibile online. Chiamaci per informazioni sui piatti del giorno!');
+function handlePanini() {
+    showNotification('Panini Gourmet', 'Panini freschi tutto il giorno! Ingredienti premium e preparazioni al momento. Vieni a scegliere o chiamaci per le specialità di oggi.');
+}
+
+function handleTavolaCalda() {
+    showNotification('Tavola Calda', 'Pranzo dalle 12:00 alle 15:00! Primi, secondi e contorni sempre pronti con cucina tradizionale e porzioni abbondanti.');
+}
+
+function handleWineBar() {
+    showNotification('Wine Bar', 'Selezione curata di vini locali e nazionali! Perfetti per accompagnare i nostri piatti o per degustazioni serali.');
+}
+
+function handleCaffetteria() {
+    showNotification('Caffetteria', 'Caffè premium dalle 7:00! Cappuccini d\'arte, bevande calde e tutto quello che ti serve per iniziare bene la giornata.');
 }
 
 function handleEventInfo() {
     const phoneNumber = '+393471234567';
-    const message = encodeURIComponent('Ciao! Sono interessato ad organizzare un evento privato da Sitica. Potreste darmi maggiori informazioni?');
+    const message = encodeURIComponent('Ciao! Sono interessato ad organizzare un evento privato da Sitica. Potreste darmi maggiori informazioni su menu e allestimenti?');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
-}
-
-function handleEvents() {
-    showNotification('Eventi Live', 'Seguici sui social per rimanere aggiornato sui prossimi eventi e serate musicali!');
 }
 
 function showComingSoonMessage() {
