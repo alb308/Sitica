@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnimations();
     initServiceButtons();
     initMobileMenu();
+    initStatsCounter();
+    initGalleryModal();
+    initAccessibility();
+    initSocialLinks();
+    initPhoneTracking();
 });
 
 // ===== RATING MODAL FUNCTIONALITY =====
@@ -445,78 +450,63 @@ function animateCounter(element) {
     }, 16);
 }
 
-// Initialize stats counter when page loads
-document.addEventListener('DOMContentLoaded', initStatsCounter);
-
 // ===== GALLERY IMAGE MODAL =====
 function initGalleryModal() {
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleryItems = document.querySelectorAll('.gallery-item img');
     
-    galleryItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Create modal for image viewing
-            const modal = createImageModal(this);
+    galleryItems.forEach(img => {
+        img.addEventListener('click', function() {
+            const modal = document.createElement('div');
+            modal.className = 'image-modal';
+            modal.innerHTML = `
+                <div class="image-modal-content">
+                    <span class="image-modal-close">&times;</span>
+                    <img src="${this.src}" alt="${this.alt}">
+                </div>
+            `;
+            
+            // Add styles
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10001;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
             document.body.appendChild(modal);
             
             setTimeout(() => {
-                modal.classList.add('show');
+                modal.style.opacity = '1';
+                modal.querySelector('.image-modal-content').style.transform = 'translateY(0)';
             }, 10);
+            
+            // Close functionality
+            const closeBtn = modal.querySelector('.image-modal-close');
+            closeBtn.addEventListener('click', () => {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    if (document.body.contains(modal)) {
+                        document.body.removeChild(modal);
+                    }
+                }, 300);
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeBtn.click();
+                }
+            });
         });
     });
 }
-
-function createImageModal(galleryItem) {
-    const modal = document.createElement('div');
-    modal.className = 'image-modal';
-    modal.innerHTML = `
-        <div class="image-modal-content">
-            <span class="image-modal-close">×</span>
-            <div class="image-modal-placeholder">
-                <i class="fas fa-image"></i>
-                <p>Immagine non ancora caricata</p>
-                <small>Seguici sui social per vedere le nostre foto!</small>
-            </div>
-        </div>
-    `;
-    
-    // Styles
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10001;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    `;
-    
-    // Close functionality
-    const closeBtn = modal.querySelector('.image-modal-close');
-    closeBtn.addEventListener('click', () => {
-        modal.style.opacity = '0';
-        setTimeout(() => {
-            if (document.body.contains(modal)) {
-                document.body.removeChild(modal);
-            }
-        }, 300);
-    });
-    
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeBtn.click();
-        }
-    });
-    
-    return modal;
-}
-
-// Initialize gallery modal
-document.addEventListener('DOMContentLoaded', initGalleryModal);
 
 // ===== PERFORMANCE OPTIMIZATIONS =====
 // Debounce function for scroll events
@@ -577,9 +567,6 @@ function initAccessibility() {
     });
 }
 
-// Initialize accessibility features
-document.addEventListener('DOMContentLoaded', initAccessibility);
-
 // ===== SOCIAL MEDIA INTEGRATION =====
 function initSocialLinks() {
     const socialLinks = document.querySelectorAll('a[href*="instagram"], a[href*="facebook"]');
@@ -591,9 +578,6 @@ function initSocialLinks() {
         });
     });
 }
-
-// Initialize social links
-document.addEventListener('DOMContentLoaded', initSocialLinks);
 
 // ===== PHONE CALL TRACKING =====
 function initPhoneTracking() {
@@ -614,9 +598,6 @@ function initPhoneTracking() {
         });
     });
 }
-
-// Initialize phone tracking
-document.addEventListener('DOMContentLoaded', initPhoneTracking);
 
 // ===== LOADING STATES =====
 function showLoading(element) {
