@@ -1,0 +1,109 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wallGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5DEB3;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DEB887;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="tableGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A0522D;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="chairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CD853F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D2691E;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:0.6" />
+    </linearGradient>
+    <radialGradient id="lightRadial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background walls -->
+  <rect width="400" height="300" fill="url(#wallGrad)"/>
+  
+  <!-- Floor -->
+  <rect x="0" y="250" width="400" height="50" fill="#8B7355"/>
+  
+  <!-- Ceiling lights -->
+  <g>
+    <!-- Light 1 -->
+    <ellipse cx="100" cy="30" rx="15" ry="8" fill="url(#lightGrad)"/>
+    <ellipse cx="100" cy="30" rx="25" ry="15" fill="url(#lightRadial)"/>
+    
+    <!-- Light 2 -->
+    <ellipse cx="200" cy="25" rx="18" ry="10" fill="url(#lightGrad)"/>
+    <ellipse cx="200" cy="25" rx="30" ry="18" fill="url(#lightRadial)"/>
+    
+    <!-- Light 3 -->
+    <ellipse cx="300" cy="30" rx="15" ry="8" fill="url(#lightGrad)"/>
+    <ellipse cx="300" cy="30" rx="25" ry="15" fill="url(#lightRadial)"/>
+  </g>
+  
+  <!-- Tables and chairs -->
+  <g>
+    <!-- Table 1 -->
+    <rect x="80" y="180" width="60" height="40" fill="url(#tableGrad)" rx="5"/>
+    <rect x="85" y="185" width="50" height="30" fill="#A0522D" rx="3"/>
+    
+    <!-- Chairs around table 1 -->
+    <ellipse cx="85" cy="170" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="135" cy="170" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="85" cy="230" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="135" cy="230" rx="12" ry="8" fill="url(#chairGrad)"/>
+    
+    <!-- Table 2 -->
+    <rect x="200" y="160" width="70" height="45" fill="url(#tableGrad)" rx="5"/>
+    <rect x="205" y="165" width="60" height="35" fill="#A0522D" rx="3"/>
+    
+    <!-- Chairs around table 2 -->
+    <ellipse cx="200" cy="150" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="270" cy="150" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="200" cy="225" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="270" cy="225" rx="12" ry="8" fill="url(#chairGrad)"/>
+    
+    <!-- Table 3 -->
+    <rect x="320" y="190" width="55" height="35" fill="url(#tableGrad)" rx="5"/>
+    <rect x="325" y="195" width="45" height="25" fill="#A0522D" rx="3"/>
+    
+    <!-- Chairs around table 3 -->
+    <ellipse cx="320" cy="180" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="375" cy="180" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="320" cy="235" rx="12" ry="8" fill="url(#chairGrad)"/>
+    <ellipse cx="375" cy="235" rx="12" ry="8" fill="url(#chairGrad)"/>
+  </g>
+  
+  <!-- Decorative elements -->
+  <g>
+    <!-- Plants -->
+    <ellipse cx="50" cy="200" rx="8" ry="12" fill="#228B22"/>
+    <ellipse cx="350" cy="210" rx="6" ry="10" fill="#228B22"/>
+    
+    <!-- Art on walls -->
+    <rect x="40" y="80" width="30" height="40" fill="#D2691E" rx="3"/>
+    <rect x="330" y="70" width="35" height="50" fill="#CD853F" rx="3"/>
+    
+    <!-- Windows -->
+    <rect x="150" y="60" width="40" height="30" fill="#87CEEB" rx="2"/>
+    <rect x="155" y="65" width="30" height="20" fill="#B0E0E6"/>
+  </g>
+  
+  <!-- Table settings -->
+  <g fill="#F5F5DC">
+    <!-- Plates -->
+    <circle cx="110" cy="200" r="8"/>
+    <circle cx="235" cy="182" r="10"/>
+    <circle cx="347" cy="207" r="7"/>
+    
+    <!-- Glasses -->
+    <ellipse cx="115" cy="195" rx="3" ry="6" fill="#E6E6FA"/>
+    <ellipse cx="240" cy="177" rx="4" ry="7" fill="#E6E6FA"/>
+    <ellipse cx="352" cy="202" rx="2.5" ry="5" fill="#E6E6FA"/>
+  </g>
+  
+  <!-- Ambient lighting effects -->
+  <circle cx="200" cy="150" r="80" fill="url(#lightRadial)" opacity="0.2"/>
+</svg>
