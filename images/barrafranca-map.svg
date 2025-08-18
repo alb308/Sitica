@@ -1,0 +1,143 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mapBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F5DC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DEB887;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#696969;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#808080;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buildingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CD853F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D2691E;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="parkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#90EE90;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#32CD32;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4682B4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#mapBgGrad)"/>
+  
+  <!-- Map border -->
+  <rect x="10" y="10" width="380" height="280" fill="none" stroke="#8B4513" stroke-width="3" rx="10"/>
+  
+  <!-- Main roads -->
+  <g>
+    <!-- Via Garibaldi (main street) -->
+    <rect x="50" y="140" width="300" height="8" fill="url(#roadGrad)" rx="4"/>
+    <rect x="50" y="140" width="300" height="4" fill="#FFFFFF" rx="2"/>
+    
+    <!-- Cross street 1 -->
+    <rect x="180" y="80" width="8" height="120" fill="url(#roadGrad)" rx="4"/>
+    <rect x="180" y="80" width="4" height="120" fill="#FFFFFF" rx="2"/>
+    
+    <!-- Cross street 2 -->
+    <rect x="280" y="100" width="8" height="100" fill="url(#roadGrad)" rx="4"/>
+    <rect x="280" y="100" width="4" height="100" fill="#FFFFFF" rx="2"/>
+  </g>
+  
+  <!-- Buildings -->
+  <g>
+    <!-- Main building area -->
+    <rect x="60" y="100" width="80" height="60" fill="url(#buildingGrad)" rx="3"/>
+    <rect x="65" y="105" width="70" height="50" fill="#DEB887"/>
+    <!-- Windows -->
+    <rect x="70" y="110" width="8" height="12" fill="#87CEEB"/>
+    <rect x="85" y="110" width="8" height="12" fill="#87CEEB"/>
+    <rect x="100" y="110" width="8" height="12" fill="#87CEEB"/>
+    <rect x="115" y="110" width="8" height="12" fill="#87CEEB"/>
+    
+    <!-- Second building area -->
+    <rect x="200" y="90" width="70" height="70" fill="url(#buildingGrad)" rx="3"/>
+    <rect x="205" y="95" width="60" height="60" fill="#DEB887"/>
+    <!-- Windows -->
+    <rect x="210" y="100" width="10" height="15" fill="#87CEEB"/>
+    <rect x="225" y="100" width="10" height="15" fill="#87CEEB"/>
+    <rect x="240" y="100" width="10" height="15" fill="#87CEEB"/>
+    <rect x="255" y="100" width="10" height="15" fill="#87CEEB"/>
+    
+    <!-- Third building area -->
+    <rect x="320" y="110" width="60" height="50" fill="url(#buildingGrad)" rx="3"/>
+    <rect x="325" y="115" width="50" height="40" fill="#DEB887"/>
+    <!-- Windows -->
+    <rect x="330" y="120" width="8" height="10" fill="#87CEEB"/>
+    <rect x="345" y="120" width="8" height="10" fill="#87CEEB"/>
+    <rect x="360" y="120" width="8" height="10" fill="#87CEEB"/>
+  </g>
+  
+  <!-- Parks and green areas -->
+  <g>
+    <!-- Central park -->
+    <ellipse cx="200" cy="200" rx="40" ry="25" fill="url(#parkGrad)"/>
+    <ellipse cx="200" cy="200" rx="35" ry="20" fill="#90EE90"/>
+    
+    <!-- Small park 1 -->
+    <ellipse cx="120" cy="220" rx="15" ry="10" fill="url(#parkGrad)"/>
+    
+    <!-- Small park 2 -->
+    <ellipse cx="320" cy="230" rx="18" ry="12" fill="url(#parkGrad)"/>
+  </g>
+  
+  <!-- Water features -->
+  <g>
+    <!-- Small fountain -->
+    <ellipse cx="200" cy="200" rx="8" ry="6" fill="url(#waterGrad)"/>
+    <ellipse cx="200" cy="200" rx="6" ry="4" fill="#87CEEB"/>
+  </g>
+  
+  <!-- Location markers -->
+  <g>
+    <!-- SITICA location marker -->
+    <circle cx="200" cy="140" r="12" fill="#D4AF37" stroke="#8B4513" stroke-width="2"/>
+    <circle cx="200" cy="140" r="8" fill="#FFD700"/>
+    <text x="200" y="145" font-family="serif" font-size="8" fill="#8B4513" text-anchor="middle" font-weight="bold">S</text>
+    
+    <!-- Address marker -->
+    <circle cx="200" cy="160" r="6" fill="#DC143C" stroke="#8B0000" stroke-width="1"/>
+    <text x="200" y="163" font-family="serif" font-size="6" fill="#FFFFFF" text-anchor="middle">45</text>
+  </g>
+  
+  <!-- Street names -->
+  <g>
+    <!-- Via Garibaldi label -->
+    <text x="200" y="175" font-family="serif" font-size="10" fill="#8B4513" text-anchor="middle" font-weight="bold">Via Garibaldi</text>
+    
+    <!-- Barrafranca label -->
+    <text x="200" y="30" font-family="serif" font-size="14" fill="#8B4513" text-anchor="middle" font-weight="bold">BARRAFRANCA (EN)</text>
+    
+    <!-- Province label -->
+    <text x="200" y="45" font-family="serif" font-size="10" fill="#8B4513" text-anchor="middle">Provincia di Enna - Sicilia</text>
+  </g>
+  
+  <!-- Decorative elements -->
+  <g>
+    <!-- Compass rose -->
+    <g transform="translate(350, 50)">
+      <circle cx="0" cy="0" r="15" fill="#F5F5DC" stroke="#8B4513" stroke-width="1"/>
+      <text x="0" y="-5" font-family="serif" font-size="8" fill="#8B4513" text-anchor="middle">N</text>
+      <text x="0" y="15" font-family="serif" font-size="8" fill="#8B4513" text-anchor="middle">S</text>
+      <text x="-15" y="5" font-family="serif" font-size="8" fill="#8B4513" text-anchor="middle">W</text>
+      <text x="15" y="5" font-family="serif" font-size="8" fill="#8B4513" text-anchor="middle">E</text>
+    </g>
+    
+    <!-- Scale indicator -->
+    <g transform="translate(50, 50)">
+      <line x1="0" y1="0" x2="40" y2="0" stroke="#8B4513" stroke-width="2"/>
+      <line x1="0" y1="-3" x2="0" y2="3" stroke="#8B4513" stroke-width="2"/>
+      <line x1="40" y1="-3" x2="40" y2="3" stroke="#8B4513" stroke-width="2"/>
+      <text x="20" y="15" font-family="serif" font-size="8" fill="#8B4513" text-anchor="middle">100m</text>
+    </g>
+    
+    <!-- Small decorative elements -->
+    <circle cx="80" cy="80" r="4" fill="#A4B5A0" opacity="0.5"/>
+    <circle cx="320" cy="70" r="3" fill="#8FA688" opacity="0.5"/>
+    <circle cx="350" cy="180" r="5" fill="#656839" opacity="0.3"/>
+  </g>
+</svg>

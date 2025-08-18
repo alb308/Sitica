@@ -1,0 +1,93 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B0E0E6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mountainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B7355;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A0522D;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="oliveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#556B2F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B8E23;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="citrusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFA500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="groundGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DEB887;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D2B48C;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background sky -->
+  <rect width="400" height="300" fill="url(#skyGrad)"/>
+  
+  <!-- Mountains in background -->
+  <path d="M0 200 Q100 120 200 180 Q300 140 400 200 L400 300 L0 300 Z" fill="url(#mountainGrad)"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="200" width="400" height="100" fill="url(#groundGrad)"/>
+  
+  <!-- Olive trees -->
+  <g>
+    <!-- Tree 1 -->
+    <ellipse cx="80" cy="180" rx="25" ry="35" fill="url(#oliveGrad)"/>
+    <rect x="75" y="200" width="10" height="40" fill="#8B4513"/>
+    <!-- Olives -->
+    <circle cx="75" cy="175" r="2" fill="#556B2F"/>
+    <circle cx="85" cy="170" r="2" fill="#556B2F"/>
+    <circle cx="90" cy="180" r="2" fill="#556B2F"/>
+    
+    <!-- Tree 2 -->
+    <ellipse cx="320" cy="190" rx="30" ry="40" fill="url(#oliveGrad)"/>
+    <rect x="315" y="210" width="10" height="35" fill="#8B4513"/>
+    <!-- Olives -->
+    <circle cx="310" cy="185" r="2" fill="#556B2F"/>
+    <circle cx="320" cy="180" r="2" fill="#556B2F"/>
+    <circle cx="330" cy="190" r="2" fill="#556B2F"/>
+    
+    <!-- Tree 3 -->
+    <ellipse cx="200" cy="170" rx="28" ry="38" fill="url(#oliveGrad)"/>
+    <rect x="195" y="190" width="10" height="40" fill="#8B4513"/>
+    <!-- Olives -->
+    <circle cx="190" cy="175" r="2" fill="#556B2F"/>
+    <circle cx="200" cy="170" r="2" fill="#556B2F"/>
+    <circle cx="210" cy="180" r="2" fill="#556B2F"/>
+  </g>
+  
+  <!-- Citrus trees -->
+  <g>
+    <!-- Orange tree -->
+    <ellipse cx="150" cy="160" rx="20" ry="25" fill="#228B22"/>
+    <rect x="145" y="175" width="10" height="30" fill="#8B4513"/>
+    <!-- Oranges -->
+    <circle cx="145" cy="155" r="4" fill="url(#citrusGrad)"/>
+    <circle cx="155" cy="150" r="4" fill="url(#citrusGrad)"/>
+    <circle cx="160" cy="160" r="4" fill="url(#citrusGrad)"/>
+    
+    <!-- Lemon tree -->
+    <ellipse cx="280" cy="170" rx="18" ry="22" fill="#228B22"/>
+    <rect x="275" y="185" width="10" height="25" fill="#8B4513"/>
+    <!-- Lemons -->
+    <ellipse cx="275" cy="165" rx="3" ry="4" fill="#FFFF00"/>
+    <ellipse cx="285" cy="160" rx="3" ry="4" fill="#FFFF00"/>
+    <ellipse cx="290" cy="170" rx="3" ry="4" fill="#FFFF00"/>
+  </g>
+  
+  <!-- Decorative elements -->
+  <circle cx="50" cy="80" r="8" fill="#FFD700" opacity="0.8"/>
+  <circle cx="350" cy="60" r="6" fill="#FFD700" opacity="0.6"/>
+  <circle cx="120" cy="50" r="4" fill="#FFD700" opacity="0.7"/>
+  
+  <!-- Small flowers on ground -->
+  <g fill="#FF69B4" opacity="0.7">
+    <circle cx="60" cy="220" r="2"/>
+    <circle cx="180" cy="230" r="2"/>
+    <circle cx="300" cy="225" r="2"/>
+    <circle cx="120" cy="240" r="2"/>
+    <circle cx="250" cy="235" r="2"/>
+  </g>
+</svg>
