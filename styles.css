@@ -69,6 +69,7 @@ body {
 img {
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
 a {
@@ -159,13 +160,28 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 8px 25px var(--shadow-medium);
 }
 
-.btn-secondary, .btn-hero.secondary {
+.btn-hero.secondary {
+    background: var(--white);
+    color: var(--primary-green);
+    border-color: var(--white);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.btn-hero.secondary:hover {
+    background: var(--cream);
+    color: var(--primary-green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+
+.btn-secondary {
     background: transparent;
     color: var(--text-muted);
     border-color: var(--border-light);
 }
 
-.btn-secondary:hover, .btn-hero.secondary:hover {
+.btn-secondary:hover{
     background: var(--light-bg);
     color: var(--text-medium);
     transform: translateY(-2px);
@@ -644,16 +660,11 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 20px 60px var(--shadow-light);
 }
 
-/* Regola per mostrare l'immagine 'entrata.jpg' */
 .about-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-}
-
-.image-placeholder {
-    display: none; /* Nascondiamo il placeholder */
 }
 
 /* Services Section */
@@ -678,6 +689,8 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid var(--border-light);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .service-card::before {
@@ -734,7 +747,13 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-light);
     margin-bottom: 1.5rem;
     line-height: 1.6;
+    flex-grow: 1;
 }
+
+.service-action {
+    margin-top: auto;
+}
+
 
 /* Gallery Section */
 .gallery {
@@ -743,19 +762,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 200px);
-    gap: 1rem;
-    margin-top: 2rem;
+    column-count: 4;
+    column-gap: 1rem;
 }
 
 .gallery-item {
+    margin-bottom: 1rem;
+    break-inside: avoid;
     border-radius: 16px;
     overflow: hidden;
-    position: relative;
     box-shadow: 0 8px 25px var(--shadow-light);
     transition: all 0.3s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .gallery-item:hover {
@@ -763,14 +786,6 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 15px 40px var(--shadow-medium);
 }
 
-.gallery-item.large {
-    grid-column: span 2;
-    grid-row: span 2;
-}
-
-.gallery-item.tall {
-    grid-row: span 2;
-}
 
 /* Location Section */
 .location {
@@ -879,41 +894,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .location-map {
-    height: 400px;
+    height: 500px;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 15px 40px var(--shadow-light);
-}
-
-.map-placeholder {
-    width: 100%;
-    height: 100%;
-    background: var(--gradient-green);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-    text-align: center;
-    padding: 2rem;
-}
-
-.map-placeholder i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.8;
-}
-
-.map-placeholder span {
-    font-size: 1.5rem;
-    font-weight: 600;
-    font-family: 'Playfair Display', serif;
-    margin-bottom: 1rem;
-}
-
-.map-placeholder p {
-    font-size: 1rem;
-    opacity: 0.9;
 }
 
 /* Footer */
@@ -1061,6 +1045,10 @@ h1, h2, h3, h4, h5, h6 {
     .about-content {
         gap: 3rem;
     }
+
+    .gallery-grid {
+        column-count: 3;
+    }
 }
 
 @media (max-width: 900px) {
@@ -1073,17 +1061,6 @@ h1, h2, h3, h4, h5, h6 {
     .footer-content {
         grid-template-columns: 1fr;
         gap: 2rem;
-    }
-
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(auto, 160px);
-    }
-
-    .gallery-item.large,
-    .gallery-item.tall {
-        grid-column: span 1;
-        grid-row: span 1;
     }
 }
 
@@ -1162,11 +1139,9 @@ h1, h2, h3, h4, h5, h6 {
     .location {
         padding: 4rem 0;
     }
-
+    
     .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        grid-template-rows: repeat(auto, 200px);
+        column-count: 2;
     }
 
     .footer-links {
@@ -1268,13 +1243,16 @@ h1, h2, h3, h4, h5, h6 {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
+
+    .gallery-grid {
+        column-count: 1;
+    }
 }
 
 /* ============================ */
 /* === 7. STILI AGGIUNTIVI === */
 /* ============================ */
 
-/* Stili per le modali di immagine e notifica (dal tuo codice originale) */
 .image-modal {
     position: fixed;
     top: 0;
@@ -1288,6 +1266,12 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 10001;
     opacity: 0;
     transition: opacity 0.3s ease;
+    visibility: hidden;
+}
+
+.image-modal.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .image-modal-content {
@@ -1297,6 +1281,18 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--white);
     border-radius: 12px;
     overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.image-modal.show .image-modal-content {
+    transform: scale(1);
+}
+
+.image-modal-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    display: block;
 }
 
 .image-modal-close {
@@ -1333,8 +1329,12 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 9999;
     max-width: 350px;
     border-left: 4px solid var(--primary-green);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.notification.show {
+    transform: translateX(0);
 }
 
 .notification-content h4 {
@@ -1387,6 +1387,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
 }
 
 /* Scrollbar personalizzata */
@@ -1404,4 +1405,9 @@ h1, h2, h3, h4, h5, h6 {
     .header, .rating-modal, .notification { display: none !important; }
     .hero { min-height: auto; padding: 2rem 0; }
     * { color: black !important; background: white !important; }
+}
+
+body.keyboard-navigation *:focus {
+    outline: 2px solid var(--primary-green);
+    outline-offset: 2px;
 }

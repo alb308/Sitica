@@ -55,15 +55,9 @@ function initRatingModal() {
     // Handle review button click
     reviewBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        // Here you should put the actual link to your review site
-        // For now, it will show a message asking for the link
-        const reviewUrl = prompt('Inserisci il link del tuo sito recensioni:', 'https://tuosito-recensioni.com');
-        if (reviewUrl && reviewUrl !== 'https://tuosito-recensioni.com') {
-            window.open(reviewUrl, '_blank');
-            hideModal();
-        } else {
-            showNotification('Link Recensioni', 'Aggiorna il link del sito recensioni nel codice JavaScript!');
-        }
+        const reviewUrl = 'https://recensionisitica.netlify.app/';
+        window.open(reviewUrl, '_blank');
+        hideModal();
     });
 }
 
