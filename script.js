@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initNavigation();
     initScrollEffects();
     initAnimations();
-    initServiceButtons();
     initMobileMenu();
     initStatsCounter();
     initGalleryModal();
@@ -179,167 +178,6 @@ function initAnimations() {
     });
 }
 
-// ===== SERVICE BUTTONS FUNCTIONALITY =====
-function initServiceButtons() {
-    const serviceButtons = document.querySelectorAll('.btn-service');
-    
-    serviceButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const buttonText = this.textContent.trim();
-            const action = this.getAttribute('data-action');
-            
-            if (action === 'reviews') {
-                handleReviews();
-            } else {
-                switch(buttonText) {
-                    case 'Scopri Dolci':
-                        handlePasticceria();
-                        break;
-                    case 'Gusti del Giorno':
-                        handleGelateria();
-                        break;
-                    case 'Menu Aperitivi':
-                        handleAperitivi();
-                        break;
-                    case 'Prenota Aperifish':
-                        handleAperifish();
-                        break;
-                    case 'Scegli Panino':
-                        handlePanini();
-                        break;
-                    case 'Menu del Giorno':
-                        handleTavolaCalda();
-                        break;
-                    case 'Carta Vini':
-                        handleWineBar();
-                        break;
-                    case 'Scopri Caffè':
-                        handleCaffetteria();
-                        break;
-                    case 'Richiedi Info':
-                        handleEventInfo();
-                        break;
-                    default:
-                        showComingSoonMessage();
-                }
-            }
-        });
-    });
-}
-
-function handleReviews() {
-    // Here you should put the actual link to your review site
-    // For now, it will show a message asking for the link
-    const reviewUrl = prompt('Inserisci il link del tuo sito recensioni:', 'https://tuosito-recensioni.com');
-    if (reviewUrl && reviewUrl !== 'https://tuosito-recensioni.com') {
-        window.open(reviewUrl, '_blank');
-    } else {
-        showNotification('Link Recensioni', 'Aggiorna il link del sito recensioni nel codice JavaScript!');
-    }
-}
-
-function handlePasticceria() {
-    showNotification('Pasticceria', 'Dolci freschi ogni giorno dalle 7:00! Cornetti, brioches e torte personalizzate per ogni occasione. Chiamaci per ordinazioni speciali!');
-}
-
-function handleGelateria() {
-    showNotification('Gelateria', 'Gelato artigianale con ingredienti naturali! Vieni a scoprire i gusti del giorno e le nostre creazioni originali.');
-}
-
-function handleAperitivi() {
-    showNotification('Aperitivi', 'I nostri aperitivi dalle 18:00 alle 21:00! Cocktail, spritz e stuzzichini gourmet ti aspettano per iniziare la serata.');
-}
-
-function handleAperifish() {
-    const phoneNumber = '+393471234567';
-    const message = encodeURIComponent('Ciao! Vorrei prenotare per l\'Aperifish di venerdì sera. Quanti posti avete disponibili?');
-    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
-}
-
-function handlePanini() {
-    showNotification('Panini Gourmet', 'Panini freschi tutto il giorno! Ingredienti premium e preparazioni al momento. Vieni a scegliere o chiamaci per le specialità di oggi.');
-}
-
-function handleTavolaCalda() {
-    showNotification('Tavola Calda', 'Pranzo dalle 12:00 alle 15:00! Primi, secondi e contorni sempre pronti con cucina tradizionale e porzioni abbondanti.');
-}
-
-function handleWineBar() {
-    showNotification('Wine Bar', 'Selezione curata di vini locali e nazionali! Perfetti per accompagnare i nostri piatti o per degustazioni serali.');
-}
-
-function handleCaffetteria() {
-    showNotification('Caffetteria', 'Caffè premium dalle 7:00! Cappuccini d\'arte, bevande calde e tutto quello che ti serve per iniziare bene la giornata.');
-}
-
-function handleEventInfo() {
-    const phoneNumber = '+393471234567';
-    const message = encodeURIComponent('Ciao! Sono interessato ad organizzare un evento privato da Sitica. Potreste darmi maggiori informazioni su menu e allestimenti?');
-    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
-}
-
-function showComingSoonMessage() {
-    showNotification('Coming Soon', 'Questa funzionalità sarà disponibile a breve. Continua a seguirci!');
-}
-
-function showNotification(title, message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <h4>${title}</h4>
-            <p>${message}</p>
-            <button class="notification-close">×</button>
-        </div>
-    `;
-    
-    // Add styles
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(101, 104, 57, 0.2);
-        z-index: 9999;
-        max-width: 350px;
-        border-left: 4px solid var(--primary-green);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Close functionality
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    });
-    
-    // Auto close after 5 seconds
-    setTimeout(() => {
-        if (document.body.contains(notification)) {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
-        }
-    }, 5000);
-}
-
 // ===== MOBILE MENU =====
 function initMobileMenu() {
     const mobileToggle = document.querySelector('.mobile-toggle');
@@ -508,40 +346,6 @@ function initGalleryModal() {
     });
 }
 
-// ===== PERFORMANCE OPTIMIZATIONS =====
-// Debounce function for scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Throttle function for scroll events
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
-
-// ===== ERROR HANDLING =====
-window.addEventListener('error', function(e) {
-    console.error('JavaScript Error:', e.error);
-    // You can implement error reporting here
-});
-
 // ===== ACCESSIBILITY IMPROVEMENTS =====
 function initAccessibility() {
     // Add keyboard navigation support
@@ -599,33 +403,62 @@ function initPhoneTracking() {
     });
 }
 
-// ===== LOADING STATES =====
-function showLoading(element) {
-    const original = element.innerHTML;
-    element.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    element.disabled = true;
+// ===== NOTIFICATION FUNCTION =====
+function showNotification(title, message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <h4>${title}</h4>
+            <p>${message}</p>
+            <button class="notification-close">×</button>
+        </div>
+    `;
     
-    return () => {
-        element.innerHTML = original;
-        element.disabled = false;
-    };
-}
-
-// ===== UTILITY FUNCTIONS =====
-function formatPhoneNumber(phone) {
-    return phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-}
-
-function isValidEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function getTimeOfDay() {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'mattina';
-    if (hour < 18) return 'pomeriggio';
-    return 'sera';
+    // Add styles
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(101, 104, 57, 0.2);
+        z-index: 9999;
+        max-width: 350px;
+        border-left: 4px solid var(--primary-green);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Close functionality
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    });
+    
+    // Auto close after 5 seconds
+    setTimeout(() => {
+        if (document.body.contains(notification)) {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }
+    }, 5000);
 }
 
 // ===== CONSOLE WELCOME MESSAGE =====
@@ -635,21 +468,9 @@ Developed with ❤️ for the best Food & Drink Hub in Sicily
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📍 Via Garibaldi 45, 94012 Barrafranca (EN)
-📞 +39 347 123 4567
+📞 +39 333 596 9079
 🌐 Instagram: @sitica_barrafranca
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Grazie per aver visitato il nostro sito!
 `);
-
-// ===== EXPORT FUNCTIONS (if using modules) =====
-// Export main functions if needed
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initRatingModal,
-        initNavigation,
-        initScrollEffects,
-        initAnimations,
-        showNotification
-    };
-}
