@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initRatingModal();
     initNavigation();
     initScrollEffects();
-    initAnimations();
+    // initAnimations(); // <-- EFFETTO RIMOSSO
     initMobileMenu();
     initStatsCounter();
     initGalleryModal();
@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== RATING MODAL FUNCTIONALITY =====
 function initRatingModal() {
     const modal = document.getElementById('ratingModal');
+    if (!modal) return;
     const closeBtn = document.querySelector('.rating-close');
     const skipBtn = document.getElementById('skipRating');
     const reviewBtn = document.getElementById('goToReviews');
@@ -54,9 +55,7 @@ function initRatingModal() {
 
     // Handle review button click
     reviewBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const reviewUrl = 'https://recensionisitica.netlify.app/';
-        window.open(reviewUrl, '_blank');
+        // The link is already in the HTML, this just ensures it hides the modal
         hideModal();
     });
 }
@@ -70,8 +69,9 @@ function initNavigation() {
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
+            const targetId = this.getAttribute('href');
+            if (!targetId || targetId === '#') return;
+            const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
                 const headerHeight = header.offsetHeight;
@@ -84,6 +84,12 @@ function initNavigation() {
                 
                 // Update active nav link
                 updateActiveNavLink(this);
+
+                // Close mobile menu if open
+                const mobileNav = document.querySelector('.nav-links');
+                if (mobileNav.classList.contains('show')) {
+                    document.querySelector('.mobile-toggle').click();
+                }
             }
         });
     });
@@ -101,14 +107,17 @@ function initNavigation() {
         const sections = document.querySelectorAll('section[id]');
         const scrollPos = window.scrollY + header.offsetHeight + 100;
         
+        let currentSectionId = null;
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-                updateActiveNavLink(activeLink);
+            if (section.offsetTop <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
+                link.classList.add('active');
             }
         });
     });
@@ -136,39 +145,7 @@ function initScrollEffects() {
             header.style.transform = 'translateY(0)';
         }
         
-        lastScrollY = currentScrollY;
-    });
-}
-
-// ===== ANIMATION ON SCROLL =====
-function initAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-up');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements for animation
-    const animatedElements = document.querySelectorAll(
-        '.service-card, .gallery-item, .contact-item, .feature, .stat'
-    );
-    
-    animatedElements.forEach(el => {
-        observer.observe(el);
-    });
-
-    // Stagger animations for service cards
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
+        lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
     });
 }
 
@@ -176,74 +153,49 @@ function initAnimations() {
 function initMobileMenu() {
     const mobileToggle = document.querySelector('.mobile-toggle');
     const navLinks = document.querySelector('.nav-links');
-    let isMenuOpen = false;
     
     if (!mobileToggle || !navLinks) return;
     
     mobileToggle.addEventListener('click', function() {
-        isMenuOpen = !isMenuOpen;
-        toggleMobileMenu();
-    });
-    
-    function toggleMobileMenu() {
-        if (isMenuOpen) {
-            // Open menu
-            navLinks.classList.add('show');
-            document.body.style.overflow = 'hidden';
-            
-            // Animate hamburger
-            const spans = mobileToggle.querySelectorAll('span');
-            if (spans.length >= 3) {
+        const isMenuOpen = navLinks.classList.toggle('show');
+        document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+        
+        // Animate hamburger
+        const spans = mobileToggle.querySelectorAll('span');
+        if (spans.length >= 3) {
+            if (isMenuOpen) {
                 spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
                 spans[1].style.opacity = '0';
                 spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                spans.forEach(span => {
+                    span.style.transform = '';
+                    span.style.opacity = '';
+                });
             }
-            
-        } else {
-            // Close menu
+        }
+    });
+    
+    // Close mobile menu on window resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && navLinks.classList.contains('show')) {
             navLinks.classList.remove('show');
             document.body.style.overflow = '';
-            
-            // Reset hamburger
             const spans = mobileToggle.querySelectorAll('span');
             spans.forEach(span => {
                 span.style.transform = '';
                 span.style.opacity = '';
             });
         }
-    }
-    
-    // Close mobile menu when clicking on a link
-    const navLinksElements = document.querySelectorAll('.nav-link');
-    navLinksElements.forEach(link => {
-        link.addEventListener('click', () => {
-            if (isMenuOpen) {
-                isMenuOpen = false;
-                toggleMobileMenu();
-            }
-        });
-    });
-    
-    // Close mobile menu on window resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768 && isMenuOpen) {
-            isMenuOpen = false;
-            toggleMobileMenu();
-        }
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (isMenuOpen && !mobileToggle.contains(e.target) && !navLinks.contains(e.target)) {
-            isMenuOpen = false;
-            toggleMobileMenu();
-        }
     });
 }
+
 
 // ===== HERO STATS COUNTER ANIMATION =====
 function initStatsCounter() {
     const stats = document.querySelectorAll('.stat-number');
+    if (stats.length === 0) return;
+    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -251,7 +203,7 @@ function initStatsCounter() {
                 observer.unobserve(entry.target);
             }
         });
-    });
+    }, { threshold: 0.5 });
     
     stats.forEach(stat => {
         observer.observe(stat);
@@ -259,108 +211,91 @@ function initStatsCounter() {
 }
 
 function animateCounter(element) {
-    const target = parseFloat(element.textContent);
-    const duration = 2000; // 2 seconds
-    const step = target / (duration / 16); // 60 FPS
-    let current = 0;
+    const target = parseFloat(element.dataset.target || element.textContent);
+    const duration = 2000;
+    let start = 0;
+    const stepTime = 16;
+    const steps = duration / stepTime;
+    const increment = target / steps;
     
     const timer = setInterval(() => {
-        current += step;
-        if (current >= target) {
-            current = target;
+        start += increment;
+        if (start >= target) {
+            start = target;
             clearInterval(timer);
         }
-        
-        // Format number based on original format
-        if (element.textContent.includes('.')) {
-            element.textContent = current.toFixed(1);
-        } else if (element.textContent.includes('+')) {
-            element.textContent = Math.floor(current) + '+';
-        } else {
-            element.textContent = Math.floor(current);
-        }
-    }, 16);
+        element.textContent = Math.floor(start);
+    }, stepTime);
 }
 
 // ===== GALLERY IMAGE MODAL =====
 function initGalleryModal() {
     const galleryItems = document.querySelectorAll('.gallery-item img');
-    
+    let modal = null;
+
+    function showImageModal(imgSrc, imgAlt) {
+        // Create and append modal HTML
+        modal = document.createElement('div');
+        modal.className = 'image-modal';
+        modal.innerHTML = `
+            <div class="image-modal-content">
+                <img src="${imgSrc}" alt="${imgAlt}">
+            </div>
+            <span class="image-modal-close">&times;</span>
+        `;
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden';
+
+        // Animate in
+        setTimeout(() => modal.classList.add('show'), 10);
+
+        // Add close event listeners
+        modal.querySelector('.image-modal-close').addEventListener('click', closeImageModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+    }
+
+    function closeImageModal() {
+        if (!modal) return;
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            if (modal && document.body.contains(modal)) {
+                document.body.removeChild(modal);
+            }
+            modal = null;
+        }, 300);
+    }
+
     galleryItems.forEach(img => {
         img.addEventListener('click', function() {
-            const modal = document.createElement('div');
-            modal.className = 'image-modal';
-            modal.innerHTML = `
-                <div class="image-modal-content">
-                    <span class="image-modal-close">&times;</span>
-                    <img src="${this.src}" alt="${this.alt}">
-                </div>
-            `;
-            
-            // Add styles
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.9);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10001;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            `;
-            
-            document.body.appendChild(modal);
-            
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                modal.querySelector('.image-modal-content').style.transform = 'translateY(0)';
-            }, 10);
-            
-            // Close functionality
-            const closeBtn = modal.querySelector('.image-modal-close');
-            closeBtn.addEventListener('click', () => {
-                modal.style.opacity = '0';
-                setTimeout(() => {
-                    if (document.body.contains(modal)) {
-                        document.body.removeChild(modal);
-                    }
-                }, 300);
-            });
-            
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeBtn.click();
-                }
-            });
+            showImageModal(this.src, this.alt);
         });
+    });
+
+    // Close with escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal) {
+            closeImageModal();
+        }
     });
 }
 
+
 // ===== ACCESSIBILITY IMPROVEMENTS =====
 function initAccessibility() {
-    // Add keyboard navigation support
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            // Close any open modals
-            const openModals = document.querySelectorAll('.rating-modal.show, .image-modal');
-            openModals.forEach(modal => {
-                const closeBtn = modal.querySelector('[class*="close"]');
-                if (closeBtn) closeBtn.click();
-            });
-        }
-        
+    // Add keyboard navigation support for focus
+    document.addEventListener('keydown', (e) => {
         if (e.key === 'Tab') {
-            // Ensure focus is visible
             document.body.classList.add('keyboard-navigation');
         }
     });
     
     // Remove keyboard navigation class on mouse use
-    document.addEventListener('mousedown', function() {
+    document.addEventListener('mousedown', () => {
         document.body.classList.remove('keyboard-navigation');
     });
 }
@@ -370,8 +305,7 @@ function initSocialLinks() {
     const socialLinks = document.querySelectorAll('a[href*="instagram"], a[href*="facebook"]');
     
     socialLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Add analytics tracking here if needed
+        link.addEventListener('click', function() {
             console.log('Social media link clicked:', this.href);
         });
     });
@@ -382,14 +316,12 @@ function initPhoneTracking() {
     const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
     
     phoneLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            // Track phone calls for analytics
+        link.addEventListener('click', function(e) {
             console.log('Phone call initiated');
             
             // Show call confirmation on desktop
             if (window.innerWidth > 768) {
-                const confirmation = confirm('Stai per chiamare Sitica. Continuare?');
-                if (!confirmation) {
+                if (!confirm('Stai per chiamare Sitica. Continuare?')) {
                     e.preventDefault();
                 }
             }
@@ -406,53 +338,28 @@ function showNotification(title, message) {
         <div class="notification-content">
             <h4>${title}</h4>
             <p>${message}</p>
-            <button class="notification-close">×</button>
         </div>
+        <button class="notification-close" aria-label="Chiudi notifica">&times;</button>
     `;
-    
-    // Add styles
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(101, 104, 57, 0.2);
-        z-index: 9999;
-        max-width: 350px;
-        border-left: 4px solid var(--primary-green);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    
     document.body.appendChild(notification);
     
     // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
+    setTimeout(() => notification.classList.add('show'), 100);
     
-    // Close functionality
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        notification.style.transform = 'translateX(100%)';
+    const close = () => {
+        notification.classList.remove('show');
         setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    });
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 400);
+    };
+
+    // Close functionality
+    notification.querySelector('.notification-close').addEventListener('click', close);
     
     // Auto close after 5 seconds
-    setTimeout(() => {
-        if (document.body.contains(notification)) {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
-        }
-    }, 5000);
+    setTimeout(close, 5000);
 }
 
 // ===== CONSOLE WELCOME MESSAGE =====

@@ -1379,17 +1379,6 @@ h1, h2, h3, h4, h5, h6 {
 .hidden { display: none; }
 .visible { display: block; }
 
-/* Animazioni */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-    opacity: 0;
-}
-
 /* Scrollbar personalizzata */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--light-bg); }
