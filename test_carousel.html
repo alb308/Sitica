@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Carosello Debug</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gallery {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .carousel {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .carousel__track-container {
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f0f0f0;
+            position: relative;
+            cursor: grab;
+        }
+
+        .carousel__track-container:active {
+            cursor: grabbing;
+        }
+
+        .carousel__track {
+            display: flex;
+            transition: transform 0.5s ease;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .carousel__track.dragging {
+            transition: none;
+        }
+
+        .carousel__slide {
+            flex: 0 0 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            background: white;
+        }
+
+        .carousel__image {
+            max-width: 100%;
+            max-height: 600px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .carousel__button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #656839;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .carousel__button:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel__button--left {
+            left: 10px;
+        }
+
+        .carousel__button--right {
+            right: 10px;
+        }
+
+        .carousel__counter {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #656839;
+        }
+
+        .debug-info {
+            background: #f0f0f0;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .image-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .image-status {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .found { background: #d4edda; color: #155724; }
+        .missing { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <h2 style="text-align: center; margin-bottom: 20px;">Test Debug Carosello</h2>
+        
+        <div class="debug-info" id="debugInfo">
+            Testando immagini...
+        </div>
+
+        <div class="carousel">
+            <button class="carousel__button carousel__button--left">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="carousel__track-container">
+                <ul class="carousel__track">
+                    <!-- Slide inserite dinamicamente -->
+                </ul>
+            </div>
+            
+            <button class="carousel__button carousel__button--right">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="carousel__counter">1 / 1</div>
+        </div>
+    </div>
+
+    <script>
+        class DebugCarousel {
+            constructor() {
+                this.track = document.querySelector('.carousel__track');
+                this.prevBtn = document.querySelector('.carousel__button--left');
+                this.nextBtn = document.querySelector('.carousel__button--right');
+                this.counter = document.querySelector('.carousel__counter');
+                this.debugInfo = document.getElementById('debugInfo');
+                this.trackContainer = document.querySelector('.carousel__track-container');
+                
+                this.currentIndex = 0;
+                this.validImages = [];
+                this.slides = [];
+                
+                // Scroll/Drag variables
+                this.isDragging = false;
+                this.startX = 0;
+                this.currentX = 0;
+                this.startTransform = 0;
+                
+                this.init();
+            }
+
+            async init() {
+                // Lista delle immagini da testare
+                const imageList = this.generateImageList();
+                this.debugInfo.innerHTML = `Testando ${imageList.length} immagini...`;
+                
+                // Trova solo le immagini che esistono veramente
+                this.validImages = await this.findValidImages(imageList);
+                
+                // Debug: mostra risultati
+                this.showDebugResults(imageList);
+                
+                if (this.validImages.length === 0) {
+                    this.debugInfo.innerHTML = '<strong style="color: red;">ERRORE: Nessuna immagine trovata!</strong><br>Controlla che le immagini siano nella cartella "images/" con estensione .jpeg';
+                    return;
+                }
+
+                // Crea il carosello solo con immagini valide
+                this.createCarousel();
+                this.setupEvents();
+                this.updateCounter();
+            }
+
+            generateImageList() {
+                const list = ['2', '5', '7'];
+                for (let i = 8; i <= 66; i++) {
+                    list.push(i.toString());
+                }
+                return list;
+            }
+
+            async findValidImages(imageList) {
+                const validImages = [];
+                
+                for (const imageName of imageList) {
+                    const exists = await this.checkImageExists(imageName);
+                    if (exists) {
+                        validImages.push(imageName);
+                    }
+                }
+                
+                return validImages;
+            }
+
+            checkImageExists(imageName) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => resolve(false);
+                    img.src = `images/${imageName}.jpeg`;
+                });
+            }
+
+            showDebugResults(allImages) {
+                const foundCount = this.validImages.length;
+                const totalCount = allImages.length;
+                
+                let html = `<strong>Risultati Test:</strong> ${foundCount}/${totalCount} immagini trovate<br>`;
+                
+                if (foundCount > 0) {
+                    html += `<strong>Prime 5 immagini trovate:</strong> `;
+                    html += this.validImages.slice(0, 5).map(name => 
+                        `<span class="image-status found">${name}.jpeg</span>`
+                    ).join(' ');
+                    
+                    if (foundCount > 5) {
+                        html += ` <em>...e altre ${foundCount - 5}</em>`;
+                    }
+                }
+                
+                const missing = allImages.filter(name => !this.validImages.includes(name));
+                if (missing.length > 0) {
+                    html += `<br><strong>Prime 5 immagini mancanti:</strong> `;
+                    html += missing.slice(0, 5).map(name => 
+                        `<span class="image-status missing">${name}.jpeg</span>`
+                    ).join(' ');
+                    
+                    if (missing.length > 5) {
+                        html += ` <em>...e altre ${missing.length - 5}</em>`;
+                    }
+                }
+                
+                this.debugInfo.innerHTML = html;
+            }
+
+            createCarousel() {
+                // Crea slide solo per immagini valide
+                this.validImages.forEach((imageName, index) => {
+                    const slide = document.createElement('li');
+                    slide.className = 'carousel__slide';
+                    
+                    const img = document.createElement('img');
+                    img.className = 'carousel__image';
+                    img.src = `images/${imageName}.jpeg`;
+                    img.alt = `Galleria Sitica - ${imageName}`;
+                    
+                    slide.appendChild(img);
+                    this.track.appendChild(slide);
+                });
+
+                this.slides = Array.from(this.track.children);
+            }
+
+            setupEvents() {
+                // Pulsanti
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+                
+                // Mouse drag
+                this.trackContainer.addEventListener('mousedown', (e) => this.startDrag(e.clientX));
+                document.addEventListener('mousemove', (e) => this.updateDrag(e.clientX));
+                document.addEventListener('mouseup', () => this.endDrag());
+                
+                // Touch
+                this.trackContainer.addEventListener('touchstart', (e) => 
+                    this.startDrag(e.touches[0].clientX), {passive: true});
+                this.trackContainer.addEventListener('touchmove', (e) => 
+                    this.updateDrag(e.touches[0].clientX), {passive: true});
+                this.trackContainer.addEventListener('touchend', () => this.endDrag(), {passive: true});
+                
+                // Keyboard
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.prevSlide();
+                    if (e.key === 'ArrowRight') this.nextSlide();
+                });
+            }
+
+            startDrag(clientX) {
+                this.isDragging = true;
+                this.startX = clientX;
+                this.startTransform = this.getCurrentTransform();
+                this.track.classList.add('dragging');
+                this.trackContainer.style.cursor = 'grabbing';
+            }
+
+            updateDrag(clientX) {
+                if (!this.isDragging) return;
+                
+                const diff = clientX - this.startX;
+                const newTransform = this.startTransform + diff;
+                this.track.style.transform = `translateX(${newTransform}px)`;
+            }
+
+            endDrag() {
+                if (!this.isDragging) return;
+                
+                const diff = this.startX - this.currentX;
+                this.track.classList.remove('dragging');
+                this.trackContainer.style.cursor = 'grab';
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) this.nextSlide();
+                    else this.prevSlide();
+                } else {
+                    this.goToSlide(this.currentIndex);
+                }
+                
+                this.isDragging = false;
+            }
+
+            getCurrentTransform() {
+                const transform = this.track.style.transform;
+                const match = transform.match(/translateX\((-?\d+(?:\.\d+)?)px\)/);
+                return match ? parseFloat(match[1]) : 0;
+            }
+
+            goToSlide(index) {
+                if (index < 0 || index >= this.slides.length) return;
+                
+                const offset = -100 * index;
+                this.track.style.transform = `translateX(${offset}%)`;
+                this.currentIndex = index;
+                this.updateCounter();
+            }
+
+            nextSlide() {
+                const nextIndex = (this.currentIndex + 1) % this.slides.length;
+                this.goToSlide(nextIndex);
+            }
+
+            prevSlide() {
+                const prevIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+                this.goToSlide(prevIndex);
+            }
+
+            updateCounter() {
+                this.counter.textContent = `${this.currentIndex + 1} / ${this.slides.length}`;
+            }
+        }
+
+        // Avvia quando la pagina è pronta
+        document.addEventListener('DOMContentLoaded', () => {
+            new DebugCarousel();
+        });
+    </script>
+</body>
+</html>

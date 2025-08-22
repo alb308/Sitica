@@ -1,14 +1,12 @@
-// ===== SITICA BARRAFRANCA - SCRIPT.JS =====
+// ===== SITICA BARRAFRANCA - SCRIPT.JS COMPLETO =====
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all functionality
     initRatingModal();
     initNavigation();
     initScrollEffects();
-    // initAnimations(); // <-- EFFETTO RIMOSSO
     initMobileMenu();
-    initStatsCounter();
-    initGalleryModal();
+    initCarousel();
     initAccessibility();
     initSocialLinks();
     initPhoneTracking();
@@ -20,43 +18,24 @@ function initRatingModal() {
     if (!modal) return;
     const closeBtn = document.querySelector('.rating-close');
     const skipBtn = document.getElementById('skipRating');
-    const reviewBtn = document.getElementById('goToReviews');
 
-    // Show modal after 3 seconds
     setTimeout(() => {
-        // Check if user has already rated (stored in localStorage)
         if (!localStorage.getItem('sitica_rated')) {
-            showModal();
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
     }, 3000);
 
-    function showModal() {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function hideModal() {
+    const hideModal = () => {
         modal.classList.remove('show');
         document.body.style.overflow = '';
-        // Mark as rated to prevent showing again
         localStorage.setItem('sitica_rated', 'true');
-    }
+    };
 
-    // Close modal events
     closeBtn.addEventListener('click', hideModal);
     skipBtn.addEventListener('click', hideModal);
-    
-    // Close modal when clicking outside
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            hideModal();
-        }
-    });
-
-    // Handle review button click
-    reviewBtn.addEventListener('click', function(e) {
-        // The link is already in the HTML, this just ensures it hides the modal
-        hideModal();
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) hideModal();
     });
 }
 
@@ -65,12 +44,10 @@ function initNavigation() {
     const header = document.querySelector('.header');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    // Smooth scrolling for navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
-            if (!targetId || targetId === '#') return;
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
@@ -81,11 +58,7 @@ function initNavigation() {
                     top: targetPosition,
                     behavior: 'smooth'
                 });
-                
-                // Update active nav link
-                updateActiveNavLink(this);
 
-                // Close mobile menu if open
                 const mobileNav = document.querySelector('.nav-links');
                 if (mobileNav.classList.contains('show')) {
                     document.querySelector('.mobile-toggle').click();
@@ -94,29 +67,20 @@ function initNavigation() {
         });
     });
 
-    // Update active nav link based on scroll position
-    function updateActiveNavLink(activeLink) {
-        navLinks.forEach(link => link.classList.remove('active'));
-        if (activeLink) {
-            activeLink.classList.add('active');
-        }
-    }
-
-    // Auto-update active nav link on scroll
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', () => {
+        let current = '';
         const sections = document.querySelectorAll('section[id]');
-        const scrollPos = window.scrollY + header.offsetHeight + 100;
-        
-        let currentSectionId = null;
+        const headerHeight = header.offsetHeight;
         sections.forEach(section => {
-            if (section.offsetTop <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {
-                currentSectionId = section.getAttribute('id');
+            const sectionTop = section.offsetTop - headerHeight - 25;
+            if (pageYOffset >= sectionTop) {
+                current = section.getAttribute('id');
             }
         });
-        
+
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSectionId}`) {
+            if (link.getAttribute('href').includes(current)) {
                 link.classList.add('active');
             }
         });
@@ -131,14 +95,8 @@ function initScrollEffects() {
     window.addEventListener('scroll', function() {
         const currentScrollY = window.scrollY;
         
-        // Header background effect
-        if (currentScrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+        header.classList.toggle('scrolled', currentScrollY > 100);
         
-        // Hide/show header on scroll
         if (currentScrollY > lastScrollY && currentScrollY > 200) {
             header.style.transform = 'translateY(-100%)';
         } else {
@@ -160,7 +118,6 @@ function initMobileMenu() {
         const isMenuOpen = navLinks.classList.toggle('show');
         document.body.style.overflow = isMenuOpen ? 'hidden' : '';
         
-        // Animate hamburger
         const spans = mobileToggle.querySelectorAll('span');
         if (spans.length >= 3) {
             if (isMenuOpen) {
@@ -175,126 +132,222 @@ function initMobileMenu() {
             }
         }
     });
-    
-    // Close mobile menu on window resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768 && navLinks.classList.contains('show')) {
-            navLinks.classList.remove('show');
-            document.body.style.overflow = '';
-            const spans = mobileToggle.querySelectorAll('span');
-            spans.forEach(span => {
-                span.style.transform = '';
-                span.style.opacity = '';
-            });
-        }
-    });
 }
 
-
-// ===== HERO STATS COUNTER ANIMATION =====
-function initStatsCounter() {
-    const stats = document.querySelectorAll('.stat-number');
-    if (stats.length === 0) return;
+// ===== CAROUSEL INITIALIZATION =====
+function initCarousel() {
+    const carouselTrack = document.querySelector('.carousel__track');
+    if (!carouselTrack) return;
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounter(entry.target);
-                observer.unobserve(entry.target);
+    if (carouselTrack.children.length === 0) {
+        new WorkingCarousel();
+    }
+}
+
+// ===== WORKING CAROUSEL CLASS =====
+class WorkingCarousel {
+    constructor() {
+        this.track = document.querySelector('.carousel__track');
+        this.prevBtn = document.querySelector('.carousel__button--left');
+        this.nextBtn = document.querySelector('.carousel__button--right');
+        this.counter = document.querySelector('.carousel__counter');
+        this.trackContainer = document.querySelector('.carousel__track-container');
+        
+        this.currentIndex = 0;
+        this.validImages = [];
+        this.slides = [];
+        
+        // Scroll/Drag variables
+        this.isDragging = false;
+        this.startX = 0;
+        this.currentX = 0;
+        this.startTransform = 0;
+        this.isTransitioning = false; // Prevent rapid clicks
+        
+        this.init();
+    }
+
+    async init() {
+        // Lista delle immagini da testare
+        const imageList = this.generateImageList();
+        
+        // Trova solo le immagini che esistono veramente
+        this.validImages = await this.findValidImages(imageList);
+        
+        if (this.validImages.length === 0) {
+            console.error('Nessuna immagine trovata nella cartella images/');
+            return;
+        }
+
+        // Crea il carosello solo con immagini valide
+        this.createCarousel();
+        this.setupEvents();
+        this.updateCounter();
+        
+        console.log(`Carosello creato con ${this.validImages.length} immagini`);
+    }
+
+    generateImageList() {
+        const list = ['2', '5', '7'];
+        for (let i = 8; i <= 66; i++) {
+            list.push(i.toString());
+        }
+        return list;
+    }
+
+    async findValidImages(imageList) {
+        const validImages = [];
+        
+        for (const imageName of imageList) {
+            const exists = await this.checkImageExists(imageName);
+            if (exists) {
+                validImages.push(imageName);
+            }
+        }
+        
+        return validImages;
+    }
+
+    checkImageExists(imageName) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = `images/${imageName}.jpeg`;
+        });
+    }
+
+    createCarousel() {
+        // Crea slide solo per immagini valide
+        this.validImages.forEach((imageName, index) => {
+            const slide = document.createElement('li');
+            slide.className = 'carousel__slide';
+            
+            const img = document.createElement('img');
+            img.className = 'carousel__image';
+            img.src = `images/${imageName}.jpeg`;
+            img.alt = `Galleria Sitica - ${imageName}`;
+            
+            slide.appendChild(img);
+            this.track.appendChild(slide);
+        });
+
+        this.slides = Array.from(this.track.children);
+    }
+
+    setupEvents() {
+        // Pulsanti con throttle per evitare clic troppo rapidi
+        this.prevBtn.addEventListener('click', () => {
+            if (!this.isTransitioning) {
+                this.prevSlide();
             }
         });
-    }, { threshold: 0.5 });
-    
-    stats.forEach(stat => {
-        observer.observe(stat);
-    });
-}
-
-function animateCounter(element) {
-    const target = parseFloat(element.dataset.target || element.textContent);
-    const duration = 2000;
-    let start = 0;
-    const stepTime = 16;
-    const steps = duration / stepTime;
-    const increment = target / steps;
-    
-    const timer = setInterval(() => {
-        start += increment;
-        if (start >= target) {
-            start = target;
-            clearInterval(timer);
-        }
-        element.textContent = Math.floor(start);
-    }, stepTime);
-}
-
-// ===== GALLERY IMAGE MODAL =====
-function initGalleryModal() {
-    const galleryItems = document.querySelectorAll('.gallery-item img');
-    let modal = null;
-
-    function showImageModal(imgSrc, imgAlt) {
-        // Create and append modal HTML
-        modal = document.createElement('div');
-        modal.className = 'image-modal';
-        modal.innerHTML = `
-            <div class="image-modal-content">
-                <img src="${imgSrc}" alt="${imgAlt}">
-            </div>
-            <span class="image-modal-close">&times;</span>
-        `;
-        document.body.appendChild(modal);
-        document.body.style.overflow = 'hidden';
-
-        // Animate in
-        setTimeout(() => modal.classList.add('show'), 10);
-
-        // Add close event listeners
-        modal.querySelector('.image-modal-close').addEventListener('click', closeImageModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeImageModal();
+        this.nextBtn.addEventListener('click', () => {
+            if (!this.isTransitioning) {
+                this.nextSlide();
+            }
+        });
+        
+        // Mouse drag
+        this.trackContainer.addEventListener('mousedown', (e) => this.startDrag(e.clientX));
+        document.addEventListener('mousemove', (e) => this.updateDrag(e.clientX));
+        document.addEventListener('mouseup', () => this.endDrag());
+        
+        // Touch
+        this.trackContainer.addEventListener('touchstart', (e) => 
+            this.startDrag(e.touches[0].clientX), {passive: true});
+        this.trackContainer.addEventListener('touchmove', (e) => 
+            this.updateDrag(e.touches[0].clientX), {passive: true});
+        this.trackContainer.addEventListener('touchend', () => this.endDrag(), {passive: true});
+        
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.target.closest('.carousel')) {
+                if (e.key === 'ArrowLeft') this.prevSlide();
+                if (e.key === 'ArrowRight') this.nextSlide();
             }
         });
     }
 
-    function closeImageModal() {
-        if (!modal) return;
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
+    startDrag(clientX) {
+        this.isDragging = true;
+        this.startX = clientX;
+        this.startTransform = this.getCurrentTransform();
+        this.track.classList.add('dragging');
+        this.trackContainer.style.cursor = 'grabbing';
+    }
+
+    updateDrag(clientX) {
+        if (!this.isDragging) return;
+        
+        this.currentX = clientX;
+        const diff = clientX - this.startX;
+        const newTransform = this.startTransform + diff;
+        this.track.style.transform = `translateX(${newTransform}px)`;
+    }
+
+    endDrag() {
+        if (!this.isDragging) return;
+        
+        const diff = this.startX - this.currentX;
+        this.track.classList.remove('dragging');
+        this.trackContainer.style.cursor = 'grab';
+        
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) this.nextSlide();
+            else this.prevSlide();
+        } else {
+            this.goToSlide(this.currentIndex);
+        }
+        
+        this.isDragging = false;
+    }
+
+    getCurrentTransform() {
+        const transform = this.track.style.transform;
+        const match = transform.match(/translateX\((-?\d+(?:\.\d+)?)px\)/);
+        return match ? parseFloat(match[1]) : 0;
+    }
+
+    goToSlide(index) {
+        if (index < 0 || index >= this.slides.length || this.isTransitioning) return;
+        
+        this.isTransitioning = true;
+        
+        const offset = -100 * index;
+        this.track.style.transform = `translateX(${offset}%)`;
+        this.currentIndex = index;
+        this.updateCounter();
+        
+        // Reset transition lock after animation completes
         setTimeout(() => {
-            if (modal && document.body.contains(modal)) {
-                document.body.removeChild(modal);
-            }
-            modal = null;
-        }, 300);
+            this.isTransitioning = false;
+        }, 800); // Match CSS transition duration
     }
 
-    galleryItems.forEach(img => {
-        img.addEventListener('click', function() {
-            showImageModal(this.src, this.alt);
-        });
-    });
+    nextSlide() {
+        const nextIndex = (this.currentIndex + 1) % this.slides.length;
+        this.goToSlide(nextIndex);
+    }
 
-    // Close with escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal) {
-            closeImageModal();
-        }
-    });
+    prevSlide() {
+        const prevIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+        this.goToSlide(prevIndex);
+    }
+
+    updateCounter() {
+        this.counter.textContent = `${this.currentIndex + 1} / ${this.slides.length}`;
+    }
 }
-
 
 // ===== ACCESSIBILITY IMPROVEMENTS =====
 function initAccessibility() {
-    // Add keyboard navigation support for focus
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Tab') {
             document.body.classList.add('keyboard-navigation');
         }
     });
     
-    // Remove keyboard navigation class on mouse use
     document.addEventListener('mousedown', () => {
         document.body.classList.remove('keyboard-navigation');
     });
@@ -305,8 +358,8 @@ function initSocialLinks() {
     const socialLinks = document.querySelectorAll('a[href*="instagram"], a[href*="facebook"]');
     
     socialLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            console.log('Social media link clicked:', this.href);
+        link.addEventListener('click', () => {
+            console.log('Social media link clicked:', link.href);
         });
     });
 }
@@ -316,50 +369,14 @@ function initPhoneTracking() {
     const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
     
     phoneLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', (e) => {
             console.log('Phone call initiated');
             
-            // Show call confirmation on desktop
-            if (window.innerWidth > 768) {
-                if (!confirm('Stai per chiamare Sitica. Continuare?')) {
-                    e.preventDefault();
-                }
+            if (window.innerWidth > 768 && !confirm('Stai per chiamare Sitica. Continuare?')) {
+                e.preventDefault();
             }
         });
     });
-}
-
-// ===== NOTIFICATION FUNCTION =====
-function showNotification(title, message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <h4>${title}</h4>
-            <p>${message}</p>
-        </div>
-        <button class="notification-close" aria-label="Chiudi notifica">&times;</button>
-    `;
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => notification.classList.add('show'), 100);
-    
-    const close = () => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 400);
-    };
-
-    // Close functionality
-    notification.querySelector('.notification-close').addEventListener('click', close);
-    
-    // Auto close after 5 seconds
-    setTimeout(close, 5000);
 }
 
 // ===== CONSOLE WELCOME MESSAGE =====
@@ -367,11 +384,11 @@ console.log(`
 🌿 Benvenuto nel sito di SITICA Barrafranca! 🌿
 Developed with ❤️ for the best Food & Drink Hub in Sicily
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📍 Via Garibaldi 45, 94012 Barrafranca (EN)
 📞 +39 333 596 9079
 🌐 Instagram: @sitica_barrafranca
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Grazie per aver visitato il nostro sito!
 `);
