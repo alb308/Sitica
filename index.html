@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    
     <link rel="stylesheet" href="styles.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,7 +20,7 @@
 <body>
     <div id="ratingModal" class="rating-modal">
         <div class="rating-modal-content">
-            <span class="rating-close">&times;</span>
+            <span class="rating-close">×</span>
             <div class="rating-header">
                 <div class="rating-logo">
                     <i class="fas fa-leaf"></i>
@@ -245,7 +247,7 @@
         </div>
     </section>
 
-    <section id="gallery" class="gallery">
+    <section id="gallery" class="gallery-section">
         <div class="container">
             <div class="section-header centered">
                 <span class="section-subtitle">Gallery</span>
@@ -253,22 +255,68 @@
                 <p class="section-description">Scopri l'atmosfera unica di Sitica attraverso le nostre immagini</p>
             </div>
             
-            <div class="carousel">
-                <button class="carousel__button carousel__button--left">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                
-                <div class="carousel__track-container">
-                    <ul class="carousel__track">
-                        <!-- Slide inserite dinamicamente -->
-                    </ul>
-                </div>
-                
-                <button class="carousel__button carousel__button--right">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                
-                <div class="carousel__counter">1 / 1</div>
+            <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true, "autoPlay": true, "imagesLoaded": true, "adaptiveHeight": true, "prevNextButtons": true, "pageDots": false }'>
+              <div class="gallery-cell"><img src="images/2.jpeg" alt="Sitica Gallery Image 1"></div>
+              <div class="gallery-cell"><img src="images/5.jpeg" alt="Sitica Gallery Image 2"></div>
+              <div class="gallery-cell"><img src="images/7.jpeg" alt="Sitica Gallery Image 3"></div>
+              <div class="gallery-cell"><img src="images/8.jpeg" alt="Sitica Gallery Image 4"></div>
+              <div class="gallery-cell"><img src="images/9.jpeg" alt="Sitica Gallery Image 5"></div>
+              <div class="gallery-cell"><img src="images/10.jpeg" alt="Sitica Gallery Image 6"></div>
+              <div class="gallery-cell"><img src="images/11.jpeg" alt="Sitica Gallery Image 7"></div>
+              <div class="gallery-cell"><img src="images/12.jpeg" alt="Sitica Gallery Image 8"></div>
+              <div class="gallery-cell"><img src="images/13.jpeg" alt="Sitica Gallery Image 9"></div>
+              <div class="gallery-cell"><img src="images/14.jpeg" alt="Sitica Gallery Image 10"></div>
+              <div class="gallery-cell"><img src="images/15.jpeg" alt="Sitica Gallery Image 11"></div>
+              <div class="gallery-cell"><img src="images/16.jpeg" alt="Sitica Gallery Image 12"></div>
+              <div class="gallery-cell"><img src="images/17.jpeg" alt="Sitica Gallery Image 13"></div>
+              <div class="gallery-cell"><img src="images/18.jpeg" alt="Sitica Gallery Image 14"></div>
+              <div class="gallery-cell"><img src="images/19.jpeg" alt="Sitica Gallery Image 15"></div>
+              <div class="gallery-cell"><img src="images/20.jpeg" alt="Sitica Gallery Image 16"></div>
+              <div class="gallery-cell"><img src="images/21.jpeg" alt="Sitica Gallery Image 17"></div>
+              <div class="gallery-cell"><img src="images/22.jpeg" alt="Sitica Gallery Image 18"></div>
+              <div class="gallery-cell"><img src="images/23.jpeg" alt="Sitica Gallery Image 19"></div>
+              <div class="gallery-cell"><img src="images/24.jpeg" alt="Sitica Gallery Image 20"></div>
+              <div class="gallery-cell"><img src="images/25.jpeg" alt="Sitica Gallery Image 21"></div>
+              <div class="gallery-cell"><img src="images/26.jpeg" alt="Sitica Gallery Image 22"></div>
+              <div class="gallery-cell"><img src="images/27.jpeg" alt="Sitica Gallery Image 23"></div>
+              <div class="gallery-cell"><img src="images/28.jpeg" alt="Sitica Gallery Image 24"></div>
+              <div class="gallery-cell"><img src="images/29.jpeg" alt="Sitica Gallery Image 25"></div>
+              <div class="gallery-cell"><img src="images/30.jpeg" alt="Sitica Gallery Image 26"></div>
+              <div class="gallery-cell"><img src="images/31.jpeg" alt="Sitica Gallery Image 27"></div>
+              <div class="gallery-cell"><img src="images/32.jpeg" alt="Sitica Gallery Image 28"></div>
+              <div class="gallery-cell"><img src="images/33.jpeg" alt="Sitica Gallery Image 29"></div>
+              <div class="gallery-cell"><img src="images/34.jpeg" alt="Sitica Gallery Image 30"></div>
+              <div class="gallery-cell"><img src="images/35.jpeg" alt="Sitica Gallery Image 31"></div>
+              <div class="gallery-cell"><img src="images/36.jpeg" alt="Sitica Gallery Image 32"></div>
+              <div class="gallery-cell"><img src="images/37.jpeg" alt="Sitica Gallery Image 33"></div>
+              <div class="gallery-cell"><img src="images/38.jpeg" alt="Sitica Gallery Image 34"></div>
+              <div class="gallery-cell"><img src="images/39.jpeg" alt="Sitica Gallery Image 35"></div>
+              <div class="gallery-cell"><img src="images/40.jpeg" alt="Sitica Gallery Image 36"></div>
+              <div class="gallery-cell"><img src="images/41.jpeg" alt="Sitica Gallery Image 37"></div>
+              <div class="gallery-cell"><img src="images/42.jpeg" alt="Sitica Gallery Image 38"></div>
+              <div class="gallery-cell"><img src="images/43.jpeg" alt="Sitica Gallery Image 39"></div>
+              <div class="gallery-cell"><img src="images/44.jpeg" alt="Sitica Gallery Image 40"></div>
+              <div class="gallery-cell"><img src="images/45.jpeg" alt="Sitica Gallery Image 41"></div>
+              <div class="gallery-cell"><img src="images/46.jpeg" alt="Sitica Gallery Image 42"></div>
+              <div class="gallery-cell"><img src="images/47.jpeg" alt="Sitica Gallery Image 43"></div>
+              <div class="gallery-cell"><img src="images/48.jpeg" alt="Sitica Gallery Image 44"></div>
+              <div class="gallery-cell"><img src="images/49.jpeg" alt="Sitica Gallery Image 45"></div>
+              <div class="gallery-cell"><img src="images/50.jpeg" alt="Sitica Gallery Image 46"></div>
+              <div class="gallery-cell"><img src="images/51.jpeg" alt="Sitica Gallery Image 47"></div>
+              <div class="gallery-cell"><img src="images/52.jpeg" alt="Sitica Gallery Image 48"></div>
+              <div class="gallery-cell"><img src="images/53.jpeg" alt="Sitica Gallery Image 49"></div>
+              <div class="gallery-cell"><img src="images/54.jpeg" alt="Sitica Gallery Image 50"></div>
+              <div class="gallery-cell"><img src="images/56.jpeg" alt="Sitica Gallery Image 51"></div>
+              <div class="gallery-cell"><img src="images/57.jpeg" alt="Sitica Gallery Image 52"></div>
+              <div class="gallery-cell"><img src="images/58.jpeg" alt="Sitica Gallery Image 53"></div>
+              <div class="gallery-cell"><img src="images/59.jpeg" alt="Sitica Gallery Image 54"></div>
+              <div class="gallery-cell"><img src="images/60.jpeg" alt="Sitica Gallery Image 55"></div>
+              <div class="gallery-cell"><img src="images/61.jpeg" alt="Sitica Gallery Image 56"></div>
+              <div class="gallery-cell"><img src="images/62.jpeg" alt="Sitica Gallery Image 57"></div>
+              <div class="gallery-cell"><img src="images/63.jpeg" alt="Sitica Gallery Image 58"></div>
+              <div class="gallery-cell"><img src="images/64.jpeg" alt="Sitica Gallery Image 59"></div>
+              <div class="gallery-cell"><img src="images/65.jpeg" alt="Sitica Gallery Image 60"></div>
+              <div class="gallery-cell"><img src="images/66.jpeg" alt="Sitica Gallery Image 61"></div>
             </div>
         </div>
     </section>
@@ -418,7 +466,7 @@
             <div class="footer-bottom">
                 <div class="footer-divider"></div>
                 <div class="footer-bottom-content">
-                    <p>&copy; 2025 Sitica Barrafranca. Tutti i diritti riservati.</p>
+                    <p>© 2025 Sitica Barrafranca. Tutti i diritti riservati.</p>
                     <div class="footer-bottom-links">
                         <a href="#">Privacy Policy</a>
                         <a href="#">Termini e Condizioni</a>
@@ -429,6 +477,7 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -667,142 +667,62 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: auto;
 }
 
-/* Gallery Section & Carousel */
-.gallery {
+/* NUOVI STILI: Gallery Section & Carousel */
+.gallery-section {
     padding: 6rem 0;
     background: var(--white);
 }
 
-.carousel {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
+.gallery {
+  background: transparent;
 }
 
-.carousel__track-container {
-    overflow: hidden;
-    border-radius: 12px;
-    background: #f0f0f0;
-    position: relative;
-    cursor: grab;
-    user-select: none;
-    min-height: 400px;
+.gallery-cell {
+  width: auto;
+  height: auto;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.carousel__track-container:active {
-    cursor: grabbing;
-}
-
-.carousel__track {
-    display: flex;
-    transition: transform 0.8s ease-out;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.carousel__track.dragging {
-    transition: none;
-}
-
-.carousel__slide {
-    flex: 0 0 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-    background: white;
-}
-
-.carousel__image {
+.gallery-cell img {
+    display: block;
     max-width: 100%;
-    max-height: 600px;
-    width: auto;
+    max-height: 80vh;
     height: auto;
-    object-fit: contain;
-    border-radius: 8px;
-    pointer-events: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px var(--shadow-light);
 }
 
-.carousel__button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.95);
-    border: none;
-    cursor: pointer;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+/* MODIFICA QUI: Stili per i pulsanti piccoli */
+.flickity-prev-next-button {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.8);
     color: var(--primary-green);
-    font-size: 1.4rem;
     transition: all 0.3s ease;
-    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.carousel__button:hover {
-    background: var(--white);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+.flickity-prev-next-button:hover {
+    background: white;
+    transform: scale(1.1);
 }
 
-.carousel__button:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.carousel__button--left {
+.flickity-prev-next-button.previous {
     left: 20px;
 }
 
-.carousel__button--right {
+.flickity-prev-next-button.next {
     right: 20px;
 }
 
-.carousel__button.is-hidden {
-    opacity: 0;
-    pointer-events: none;
+.flickity-prev-next-button .flickity-button-icon {
+    width: 50%;
+    height: 50%;
 }
 
-.carousel__counter {
-    text-align: center;
-    margin-top: 15px;
-    font-weight: bold;
-    color: var(--primary-green);
-}
-
-/* Navigation rimossa - solo frecce e contatore */
-
-/* Image Counter */
-.carousel__counter {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    z-index: 10;
-}
-
-/* Loading Indicator */
-.carousel__loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--primary-green);
-    font-size: 2rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 20;
-}
-
-.carousel__loading.show {
-    opacity: 1;
-}
 
 /* Location Section */
 .location {
@@ -1386,7 +1306,6 @@ h1, h2, h3, h4, h5, h6 {
 body.keyboard-navigation *:focus {
     outline: 2px solid var(--primary-green);
     outline-offset: 2px;
-};
 }
 
 .rating-modal.show {
@@ -1472,4 +1391,5 @@ body.keyboard-navigation *:focus {
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease}
+    transition: all 0.3s ease
+}
